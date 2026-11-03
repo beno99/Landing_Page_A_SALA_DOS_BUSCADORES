@@ -33,14 +33,19 @@ export const site: SiteContent = {
   },
   salas: {
     title: "Conhecimentos que abrem novas perspectivas.",
-    subtitle: "Documentários e episódios para explorar tradições, textos antigos e perguntas sobre a existência. Escolha uma capa para assistir no YouTube.",
-    // Capas do canal oficial (i.ytimg.com/vi/<id>/maxresdefault.jpg), em ordem alfabética
+    subtitle: "Documentários e episódios para explorar tradições, textos antigos e perguntas sobre a existência. Escolha uma capa para assistir no YouTube ou abrir a Sala no Portal.",
+    // Oito capas: as quatro do canal (abrem o vídeo no YouTube) e as quatro novas das Salas (abrem a Sala no Portal).
     salas: [
-      { id: "espiral", name: "E se o tempo fosse uma espiral?", image: "/images/salas/espiral.webp", href: video("WdfozbD1Lyo") },
-      { id: "enoque", name: "Enoque: para onde ele foi? Trailer oficial", image: "/images/salas/enoque.webp", href: video("_YBJhQ2C6jc") },
-      { id: "nag-hammadi", name: "Nag Hammadi: os textos esquecidos e a porta da consciência", image: "/images/salas/nag-hammadi.webp", href: video("tcIkPbnpHLo") },
-      { id: "urantia", name: "O Livro de Urântia: origem, universo e Jesus", image: "/images/salas/urantia.webp", href: video("BMd3HC6ZpKY") },
+      { id: "espiral", name: "E se o tempo fosse uma espiral? Vídeo no YouTube", image: "/images/salas/espiral.webp", href: video("WdfozbD1Lyo"), external: true },
+      { id: "nag-hammadi", name: "Nag Hammadi: os textos esquecidos e a porta da consciência. Vídeo no YouTube", image: "/images/salas/nag-hammadi.webp", href: video("tcIkPbnpHLo"), external: true },
+      { id: "corpus-hermeticum", name: "Corpus Hermeticum: mente, cosmos e conhecimento. Sala no Portal", image: "/images/salas/corpus-hermeticum.webp", href: `${PORTAL}/salas/corpus-hermeticum` },
+      { id: "urantia", name: "O Livro de Urântia: origem, universo e Jesus. Vídeo no YouTube", image: "/images/salas/urantia.webp", href: video("BMd3HC6ZpKY"), external: true },
+      { id: "caibalion", name: "O Caibalion: ritmo, polaridade e transformação. Sala no Portal", image: "/images/salas/caibalion.webp", href: `${PORTAL}/salas/caibalion` },
+      { id: "apocrifos", name: "Evangelhos apócrifos: vozes do cristianismo antigo. Sala no Portal", image: "/images/salas/apocrifos.webp", href: `${PORTAL}/salas/apocrifos-cristianismo-primitivo` },
+      { id: "enoque", name: "Enoque: para onde ele foi? Trailer no YouTube", image: "/images/salas/enoque.webp", href: video("_YBJhQ2C6jc"), external: true },
+      { id: "fe-e-poder", name: "Fé e Poder: textos, história e autoridade. Sala no Portal", image: "/images/salas/fe-e-poder.webp", href: `${PORTAL}/salas/fe-e-poder` },
     ],
+    blocks: [["espiral"], ["nag-hammadi", "corpus-hermeticum"], ["urantia", "caibalion", "apocrifos"], ["enoque", "fe-e-poder"], ["espiral"]],
   },
   curadoria: {
     label: "A proposta do portal",

@@ -7,13 +7,15 @@ const sizes = {
   grid: "w-full",
 };
 
-/** `focusProgress`: the tunnel progress where this card is in front (SceneTrack scrolls there on focus). */
-export function SalaCard({ sala, size, focusProgress }: { sala: Sala; size: keyof typeof sizes; focusProgress?: number }) {
+/** `focusProgress`: the tunnel progress where this card is in front (SceneTrack scrolls there on focus).
+ *  `decorative`: a repeated appearance of a cover already in the list (the closing one), left out of the
+ *  tab order and of the accessibility tree so each destination is announced once. */
+export function SalaCard({ sala, size, focusProgress, decorative }: { sala: Sala; size: keyof typeof sizes; focusProgress?: number; decorative?: boolean }) {
   return (
     <a
       href={sala.href}
-      target="_blank"
-      rel="noreferrer"
+      {...(sala.external ? { target: "_blank", rel: "noreferrer" } : {})}
+      {...(decorative ? { "aria-hidden": true, tabIndex: -1 } : {})}
       data-focus-progress={focusProgress}
       className={cn(
         "group relative block aspect-video overflow-hidden rounded-sm shadow-[0_40px_120px_-20px_rgba(0,0,0,0.85)]",

@@ -10,10 +10,27 @@ describe("Salas", () => {
     setMatchMedia(() => false);
     render(<Salas content={site.salas} />);
     expect(screen.getByRole("heading", { name: "Conhecimentos que abrem novas perspectivas." })).toBeInTheDocument();
+    // Each of the eight covers is reachable exactly once; the closing repeat is hidden from AT and Tab.
     for (const sala of site.salas.salas) {
-      expect(screen.getByRole("link", { name: sala.name })).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: sala.name })).toHaveAttribute("href", sala.href);
     }
+    expect(screen.getAllByRole("link")).toHaveLength(8);
+    const all = document.querySelectorAll("#salas a");
+    expect(all).toHaveLength(9);
+    const repeat = [...all].filter((a) => a.getAttribute("aria-hidden") === "true");
+    expect(repeat).toHaveLength(1);
+    expect(repeat[0]).toHaveAttribute("tabindex", "-1");
     expect(document.querySelector("[data-tunnel]")).toBeInTheDocument();
+  });
+
+  it("YouTube covers open in a new tab, Portal Salas in the same tab", () => {
+    setMatchMedia(() => false);
+    render(<Salas content={site.salas} />);
+    for (const sala of site.salas.salas) {
+      const link = screen.getByRole("link", { name: sala.name });
+      if (sala.external) expect(link).toHaveAttribute("target", "_blank");
+      else expect(link).not.toHaveAttribute("target");
+    }
   });
 
   it("reduced motion: grid with no tunnel", () => {

@@ -5,7 +5,13 @@ const SECTION_IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "ar
 
 describe("site content", () => {
   it("has the quantities the scenes expect", () => {
-    expect(site.salas.salas).toHaveLength(4);
+    expect(site.salas.salas).toHaveLength(8);
+    // L01: blocks of 1–2–3–2–1, eight distinct covers and nine appearances, the opening one closing the cycle.
+    const { blocks, salas } = site.salas;
+    expect(blocks.map((b) => b.length)).toEqual([1, 2, 3, 2, 1]);
+    expect(blocks.flat()).toHaveLength(9);
+    expect(new Set(blocks.flat())).toEqual(new Set(salas.map((s) => s.id)));
+    expect(blocks[4]).toEqual(blocks[0]);
     expect(site.curadoria.principles).toHaveLength(3);
     expect(site.perguntas.themes).toHaveLength(10);
     expect(new Set(site.perguntas.themes).size).toBe(site.perguntas.themes.length);
