@@ -27,12 +27,35 @@ export type ArtigosContent = {
   items: ArticleItem[]; cta: Link;
 };
 export type ReadingMode = "original" | "translation" | "side";
+/**
+ * One passage approved for the showcase. `original` is present only when the original-language text has
+ * been verified (`originalLang` is its BCP 47 tag: grc, en…); without it, Original and Lado a lado are
+ * unavailable, and an intermediate translation is never shown as the original.
+ */
+export type Passage = {
+  id: string; sala: string; salaHref: string;
+  translation: string; translationLabel: string;
+  original?: string; originalLang?: string; originalLabel?: string;
+  /** Work · section · edition, as cited. */
+  source: string;
+  reference: Link;
+  glossary: { term: string; text: string };
+};
 export type LeituraContent = {
   label: string; modesLabel: string; modes: { id: ReadingMode; label: string }[];
-  quote: { original: string; translation: string; source: string; originalLabel: string; translationLabel: string };
+  unavailable: string; salaAction: string;
+  passages: Passage[];
   features: { title: string; text: string }[];
 };
-export type ConquistasContent = { label: string; line1: string; line2: string; gemsLabel: string; gems: { name: string; title: string; from: string; to: string }[]; text: string };
+export type Gem = { name: string; title: string; text: string; from: string; to: string };
+export type JornadaContent = {
+  label: string; line1: string; line2: string; text: string;
+  badge: { eyebrow: string; title: string; text: string };
+  levels: { title: string; text: string }[];
+  gemsTitle: string; gemsText: string; gems: Gem[];
+  titlesTitle: string; titles: string[]; titlesNote: string;
+  cta: Link; ctaNote: string;
+};
 export type AnfitriaoContent = {
   label: string; line1: string; line2: string; text: string; steps: { title: string; text: string }[];
   primary: Link; secondary: Link; seal: string; caption: string;
@@ -56,7 +79,7 @@ export type SiteContent = {
   meta: { title: string; description: string; ogImage: string };
   nav: NavContent; hero: HeroContent; salas: SalasContent; curadoria: CuradoriaContent;
   perguntas: PerguntasContent; trilhas: TrilhasContent; artigos: ArtigosContent;
-  leitura: LeituraContent; conquistas: ConquistasContent; anfitriao: AnfitriaoContent;
+  leitura: LeituraContent; jornada: JornadaContent; anfitriao: AnfitriaoContent;
   faq: FaqContent; chamado: ChamadoContent; footer: FooterContent;
 };
 export type AnfitrioesContent = {

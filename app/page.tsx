@@ -8,7 +8,7 @@ import { Perguntas } from "@/components/scenes/Perguntas";
 import { Trilhas } from "@/components/scenes/Trilhas";
 import { Artigos } from "@/components/scenes/Artigos";
 import { Leitura } from "@/components/scenes/Leitura";
-import { Conquistas } from "@/components/scenes/Conquistas";
+import { Jornada } from "@/components/scenes/Jornada";
 import { Anfitriao } from "@/components/scenes/Anfitriao";
 import { Faq } from "@/components/scenes/Faq";
 import { Chamado } from "@/components/scenes/Chamado";
@@ -28,7 +28,7 @@ export default function Home() {
         <Trilhas content={site.trilhas} />
         <Artigos content={site.artigos} />
         <Leitura content={site.leitura} />
-        <Conquistas content={site.conquistas} />
+        <Jornada content={site.jornada} />
         <Anfitriao content={site.anfitriao} />
         <Faq content={site.faq} />
         <Chamado content={site.chamado} />
