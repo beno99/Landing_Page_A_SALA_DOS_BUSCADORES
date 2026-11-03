@@ -45,19 +45,15 @@ export function Nav({ nav }: { nav: NavContent }) {
           />
         </div>
         <nav aria-label={nav.labels.primary} className="relative flex items-center justify-between gap-4 py-2 pl-4 pr-2 lg:pl-6">
-          <a href="#inicio" aria-label={nav.labels.logo} className="origin-left rounded-sm pointer-coarse:py-[7px] motion-safe:transition-transform duration-300 ease-cinema focus-visible:outline-2 focus-visible:outline-cream"
-            style={{ transform: compact ? "scale(0.776)" : "scale(1)" }}
+          {/* Official mark (golden SB) + the name in text. Below `sm` only the mark shows, so the CTA and the
+              menu button fit at 320px; the link keeps its accessible name either way. */}
+          <a href={nav.home ?? "#inicio"} aria-label={nav.labels.logo} className="flex shrink-0 origin-left items-center gap-3 rounded-sm pointer-coarse:py-[7px] motion-safe:transition-transform duration-300 ease-cinema focus-visible:outline-2 focus-visible:outline-cream"
+            style={{ transform: compact ? "scale(0.88)" : "scale(1)" }}
           >
-            <Image
-              src="/images/brand/logo.svg"
-              alt=""
-              width={134}
-              height={41}
-              loading="eager"
-              className="h-auto w-[112px] lg:w-[134px]"
-            />
+            <Image src="/images/brand/marca.webp" alt="" width={512} height={435} loading="eager" className="h-auto w-[38px] lg:w-[44px]" />
+            <span aria-hidden="true" className="title-serif hidden text-[17px] whitespace-nowrap text-cream sm:inline lg:hidden xl:inline xl:text-[19px]">A Sala dos Buscadores</span>
           </a>
-          <ul className="hidden items-center gap-8 lg:flex">
+          <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
             {nav.links.map((link) => (
               <li key={link.href}>
                 <a href={link.href} className="link-underline text-sm font-medium text-cream/70 hover:text-cream focus-visible:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream">

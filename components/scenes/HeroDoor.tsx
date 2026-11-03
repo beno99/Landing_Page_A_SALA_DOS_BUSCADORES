@@ -17,6 +17,8 @@ const SIDE_SHADE =
 const MOBILE_SHADE =
   "radial-gradient(ellipse 90% 45% at 50% 50%,rgba(12,4,4,0.55) 0%,rgba(12,4,4,0) 100%),linear-gradient(180deg,rgba(12,4,4,0.6) 0%,rgba(12,4,4,0) 25%,rgba(12,4,4,0) 75%,rgba(12,4,4,0.85) 100%)";
 
+const COPY_SCRIM = "radial-gradient(ellipse 62% 42% at 50% 55%,rgba(12,4,4,0.72) 0%,rgba(12,4,4,0.45) 55%,rgba(12,4,4,0) 100%)";
+
 // Figma 19321:3422 "image 215": the brick wall with a transparent door opening (2752×1536). The sky
 // behind it is the shared CosmosBackdrop. At 1440 wide the arch is 1151 wide (80vw), full height.
 export const ARCH = { src: "/images/hero/arch.webp", width: 2752, height: 1536, origin: "50% 62%" };
@@ -82,18 +84,25 @@ function HeroStage({ content, progress, reduced }: { content: HeroContent; progr
       </motion.div>
       <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: isMobile ? MOBILE_SHADE : SIDE_SHADE, opacity: on(shade) }} />
 
+      {/* Contrast layer for the copy and the CTA: its own dark pool, independent of the light and particles
+          behind the door. It leaves together with the copy, not with the side shade. */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{ backgroundImage: COPY_SCRIM, opacity: on(copyOpacity) }}
+      />
       <div className="container-page relative flex h-full flex-col items-center justify-center pt-16 text-center">
         <motion.div style={{ scale: on(copyScale), opacity: on(copyOpacity), filter: on(copyBlur) }} className="flex flex-col items-center gap-8">
-          <h1 id="hero-title" className="font-display text-[clamp(56px,8.9vw,128px)] leading-[0.8] text-cream">
-            <span className="text-white/80">{content.title[0]}</span>{" "}
+          <h1 id="hero-title" className="text-balance font-display text-[clamp(44px,7.2vw,108px)] leading-[0.9] text-cream [text-shadow:0_2px_24px_rgb(12_4_4/0.6)]">
+            <span className="text-white/85">{content.title[0]}</span>{" "}
             <br />
             {content.title[1]}
           </h1>
           {/* text-balance evens the lines out so none ends on a lone word */}
-          <p className="max-w-[780px] text-balance text-[clamp(16px,1.39vw,20px)] font-light leading-[1.3] text-bone/60">{content.description}</p>
+          <p className="max-w-[720px] text-balance text-[clamp(16px,1.39vw,20px)] font-light leading-[1.4] text-bone/90 [text-shadow:0_1px_12px_rgb(12_4_4/0.8)]">{content.description}</p>
         </motion.div>
         <motion.div inert={!reduced && ctaHidden} style={{ opacity: on(ctaOpacity) }} className="mt-8">
-          <Pill href={content.cta.href} variant="glass">{content.cta.label}</Pill>
+          <Pill href={content.cta.href} arrow>{content.cta.label}</Pill>
         </motion.div>
       </div>
     </div>

@@ -6,12 +6,14 @@ import { SceneTrack } from "@/components/motion/SceneTrack";
 import { Pill, Tag } from "@/components/ui/Pill";
 import { SectionLabel, TwoLineTitle } from "@/components/ui/SectionHeading";
 import { holdRange } from "@/lib/motion/math";
+import { useDrawOnce } from "@/lib/useDraw";
 
 export const PERGUNTAS_TRACK = { desktop: 150, mobile: 100 };
 
-// Deterministic "scattered" starting position for each theme
+// Deterministic "scattered" starting position for each theme. Kept small (about one chip away from its
+// place) so a chip in transit never sits over the title, the text or the CTA.
 function scatter(i: number) {
-  return { x: (((i * 37) % 11) - 5) * 28, y: (((i * 53) % 7) - 3) * 36, r: (((i * 29) % 9) - 4) * 4 };
+  return { x: (((i * 37) % 11) - 5) * 16, y: (((i * 53) % 7) - 3) * 12, r: (((i * 29) % 9) - 4) * 3 };
 }
 
 export function Perguntas({ content }: { content: PerguntasContent }) {
@@ -24,6 +26,8 @@ export function Perguntas({ content }: { content: PerguntasContent }) {
 
 function PerguntasStage({ content, progress, reduced }: { content: PerguntasContent; progress: MotionValue<number>; reduced: boolean }) {
   const imageY = useTransform(progress, [0, 1], ["-6%", "6%"]);
+  // A new selection of real themes on each visit, fixed while the person is on the page.
+  const themes = useDrawOnce("temas", content.themes, content.show);
   return (
     <div className="relative flex h-full min-h-svh w-full items-center overflow-hidden bg-night">
       <motion.div
@@ -43,12 +47,9 @@ function PerguntasStage({ content, progress, reduced }: { content: PerguntasCont
             <SectionLabel tone="dark">{content.label}</SectionLabel>
             <TwoLineTitle id="perguntas-title" line1={content.line1} line2={content.line2} tone="dark" />
           </div>
-          <p className="max-w-[700px] text-lg font-light leading-relaxed text-white/75">
-            {content.text}
-            <strong className="block font-semibold text-white">{content.textStrong}</strong>
-          </p>
+          <p className="max-w-[640px] text-lg font-light leading-relaxed text-white/80">{content.text}</p>
           <ul aria-label={content.themesLabel} className="flex max-w-[640px] flex-wrap gap-3">
-            {content.themes.map((theme, i) => (
+            {themes.map((theme, i) => (
               <ScatterTag key={theme} label={theme} index={i} progress={progress} reduced={reduced} />
             ))}
           </ul>
@@ -66,7 +67,7 @@ function ScatterTag({ label, index, progress, reduced }: { label: string; index:
   const [inR, xO] = holdRange([from, to], [s.x, 0]);
   const [, yO] = holdRange([from, to], [s.y, 0]);
   const [, rO] = holdRange([from, to], [s.r, 0]);
-  const [, oO] = holdRange([from, to], [0.2, 1]);
+  const [, oO] = holdRange([from, to], [0, 1]);
   const x = useTransform(progress, inR, xO);
   const y = useTransform(progress, inR, yO);
   const rotate = useTransform(progress, inR, rO);

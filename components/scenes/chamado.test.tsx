@@ -9,6 +9,6 @@ describe("Chamado", () => {
     expect(document.getElementById("chamado")).toHaveAttribute("aria-labelledby", "chamado-title");
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Abra espaço para novas formas de conhecer");
     expect(screen.getByText(site.chamado.text)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Entrar no acervo" })).toHaveAttribute("href", site.chamado.cta.href);
+    expect(screen.getByRole("link", { name: "Entrar no Portal" })).toHaveAttribute("href", site.chamado.cta.href);
   });
 });

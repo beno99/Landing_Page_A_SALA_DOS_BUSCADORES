@@ -7,14 +7,21 @@ export type CuradoriaContent = {
   image: string; imageLabel: string; imageCaption: string;
   principles: { title: string; text: string }[];
 };
-export type PerguntasContent = { label: string; line1: string; line2: string; text: string; textStrong: string; themes: string[]; themesLabel: string; cta: Link; image: string };
+/** `themes`: the pool of real themes; `show` of them are drawn once per visit, without repeats. */
+export type PerguntasContent = { label: string; line1: string; line2: string; text: string; themes: string[]; show: number; themesLabel: string; cta: Link; image: string };
 export type Step = { numeral: string; title: string; meta: string; href: string };
 export type TrilhasContent = { label: string; line1: string; line2: string; note: string; steps: Step[] };
-/** `focus` is the image's object-position; `alt` describes it; `wide` marks a 16:9 cover. */
-export type ArticleItem = { id: string; kind: "artigo" | "video" | "verbete"; source: string; title: string; meta: string; action: string; image: string; alt: string; focus?: string; wide?: boolean; href: string; external?: boolean };
+/** `kind` sets the cover's proportion: video 16:9, short 9:16, artigo 4:5. `focus` is the image's object-position. */
+export type ArticleKind = "artigo" | "video" | "short";
+export type ArticleItem = { id: string; kind: ArticleKind; source: string; title: string; meta: string; action: string; image: string; alt: string; focus?: string; href: string; external?: boolean };
 export type ArtigosContent = {
   label: string; line1: string; line2: string; text: string; filtersLabel: string;
-  filters: { id: ArticleItem["kind"] | "all"; label: string }[];
+  filters: { id: ArticleKind | "all"; label: string }[];
+  /** Group headings shown under "Todos", in this order. */
+  groups: { id: ArticleKind; label: string }[];
+  /** How many cards of each kind show before "Mostrar mais". */
+  pageSize: Record<ArticleKind, number>;
+  more: string;
   items: ArticleItem[]; cta: Link;
 };
 export type ReadingMode = "original" | "translation" | "side";
@@ -42,7 +49,7 @@ export type FaqItem = { question: string; answer: string };
 export type FaqContent = { label: string; line1: string; line2: string; invite: string; email: string; items: FaqItem[] };
 export type FooterColumn = { title: string; links: Link[] };
 export type FooterContent = { logoAlt: string; description: string; columns: FooterColumn[]; copyright: string; credit: string; backToTop: string };
-export type NavContent = { links: Link[]; cta: Link; labels: { menu: string; close: string; primary: string; logo: string } };
+export type NavContent = { links: Link[]; cta: Link; home?: string; labels: { menu: string; close: string; primary: string; logo: string } };
 export type SiteContent = {
   meta: { title: string; description: string; ogImage: string };
   nav: NavContent; hero: HeroContent; salas: SalasContent; curadoria: CuradoriaContent;

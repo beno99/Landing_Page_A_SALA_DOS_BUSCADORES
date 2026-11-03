@@ -3,16 +3,18 @@ import type { Link, SiteContent } from "./types";
 const PORTAL = "https://sala-dos-buscadores.vercel.app";
 const CANAL = "https://www.youtube.com/@ASALADOSBUSCADORES";
 const video = (id: string) => `https://www.youtube.com/watch?v=${id}`;
-const acervo: Link = { label: "Entrar no acervo", href: `${PORTAL}/salas` };
+const short = (id: string) => `https://www.youtube.com/shorts/${id}`;
+// Página inicial do Portal. Quem não está logado passa pelo login e volta para cá (?voltar=/).
+const portal: Link = { label: "Entrar no Portal", href: PORTAL };
 const youtube: Link = { label: "YouTube", href: CANAL, external: true };
 
 const navLinks: Link[] = [
   { label: "Início", href: "#inicio" },
-  { label: "Salas", href: "#salas" },
-  { label: "A Sala", href: "#curadoria" },
-  { label: "A Busca", href: "#perguntas" },
-  { label: "Trilhas", href: "#trilhas" },
-  { label: "Artigos", href: "#artigos" },
+  { label: "Conteúdos", href: "#salas" },
+  { label: "A proposta", href: "#curadoria" },
+  { label: "Temas", href: "#perguntas" },
+  { label: "Jornada", href: "#jornada" },
+  { label: "Anfitriões", href: "#anfitriao" },
 ];
 
 export const site: SiteContent = {
@@ -22,16 +24,16 @@ export const site: SiteContent = {
       "Um portal que organiza tradições religiosas, espirituais e filosóficas em Salas comparáveis. Sem hierarquizar crenças, sem apagar diferenças.",
     ogImage: "/images/og.jpg",
   },
-  nav: { links: navLinks, cta: acervo, labels: { menu: "Menu", close: "Fechar", primary: "Principal", logo: "A Sala dos Buscadores, início" } },
+  nav: { links: navLinks, cta: portal, labels: { menu: "Menu", close: "Fechar", primary: "Principal", logo: "A Sala dos Buscadores, início" } },
   hero: {
-    title: ["A porta", "continua aberta"],
+    title: ["A porta está aberta", "para a sua busca."],
     description:
-      "Um portal de Salas temáticas onde diferentes vozes compartilham conhecimentos, tradições e perspectivas sobre a experiência espiritual humana.",
-    cta: acervo,
+      "Explore conhecimentos, tradições e perspectivas sobre a experiência humana. Encontre artigos, vídeos e fontes para estudar, comparar e construir seu próprio caminho.",
+    cta: portal,
   },
   salas: {
-    title: "A sala do primeiro ciclo",
-    subtitle: "Os documentários e episódios do canal da Sala. Cada capa abre o vídeo no YouTube.",
+    title: "Conhecimentos que abrem novas perspectivas.",
+    subtitle: "Documentários e episódios para explorar tradições, textos antigos e perguntas sobre a existência. Escolha uma capa para assistir no YouTube.",
     // Capas do canal oficial (i.ytimg.com/vi/<id>/maxresdefault.jpg), em ordem alfabética
     salas: [
       { id: "espiral", name: "E se o tempo fosse uma espiral?", image: "/images/salas/espiral.webp", href: video("WdfozbD1Lyo") },
@@ -41,62 +43,81 @@ export const site: SiteContent = {
     ],
   },
   curadoria: {
-    label: "Curadoria",
-    line1: "Curador de museu,",
-    line2: "não pregador.",
-    text: "A Sala dos Buscadores organiza o conhecimento religioso, espiritual e filosófico da humanidade em Salas, cada uma dedicada a uma tradição ou corpus documental. A IA organiza o que o acervo diz; não determina qual crença é verdadeira.",
-    image: "/images/anfitrioes/claustro.webp",
+    label: "A proposta do portal",
+    line1: "Diferentes tradições.",
+    line2: "Espaço para a sua busca.",
+    text: "A Sala dos Buscadores reúne conhecimentos religiosos, espirituais e filosóficos em Salas temáticas. A Curadoria e os Anfitriões apresentam textos, fontes e perspectivas em seus contextos, convidando você a estudar, comparar e construir suas próprias interpretações.",
+    image: "/images/editorial/proposta.webp",
     imageLabel: "Acervo · ilustração",
-    imageCaption: "Claustro junto ao mar, ilustração do acervo",
+    imageCaption: "Arte ilustrativa do acervo do projeto",
     principles: [
-      { title: "Neutralidade doutrinária", text: "Salas em ordem alfabética; a ordem não indica importância." },
-      { title: "Fontes primárias à vista", text: "Original e tradução lado a lado, quando disponíveis." },
-      { title: "Revisão da curadoria", text: "Os conteúdos passam pela revisão da curadoria antes de ir ao ar." },
+      { title: "Respeito às tradições", text: "Conheça cada perspectiva em seu contexto, com atenção às diferenças." },
+      { title: "Fontes para aprofundar", text: "Consulte as referências e descubra de onde vêm as ideias apresentadas." },
+      { title: "Autoria e responsabilidade", text: "Identifique quem escreve e a perspectiva de cada conteúdo, com revisão editorial antes da publicação." },
     ],
   },
   perguntas: {
-    label: "A busca",
+    label: "Temas",
     line1: "Perguntas que",
     line2: "atravessam tradições.",
-    text: "Espiritualidade, consciência, filosofia, textos antigos, símbolos e tradições.",
-    textStrong: "Organizados por tema, não por hierarquia.",
-    themes: ["Morte", "Alma", "Meditação", "Origem do universo", "Conhecimento interior", "Formação da Bíblia", "Monoteísmo", "Origem do mal", "Manuscritos antigos", "Jesus"],
+    text: "Explore temas que aproximam diferentes Salas. Compare perspectivas, consulte fontes e encontre novas perguntas para continuar sua busca.",
+    // Temas já usados no Portal. Quando o Portal expuser os temas das publicações da Curadoria, esta lista passa a vir de lá.
+    themes: ["Alma", "Conhecimento interior", "Formação da Bíblia", "Jesus", "Manuscritos antigos", "Meditação", "Monoteísmo", "Morte", "Origem do mal", "Origem do universo"],
+    show: 8,
     themesLabel: "Temas",
     cta: { label: "Comparar temas", href: `${PORTAL}/comparar` },
     image: "/images/perguntas/scene.webp",
   },
   trilhas: {
-    label: "Trilhas",
-    line1: "Trilha de conhecimento",
-    line2: "em degraus.",
-    note: "Trilhas guiadas em preparação. Por enquanto, comece por estas leituras.",
+    label: "Leituras selecionadas",
+    line1: "Leituras para começar",
+    line2: "sua jornada.",
+    note: "Encontre um ponto de partida e avance por leituras selecionadas pela Curadoria.",
+    // Os quatro títulos ficam na Sala Corpus Hermeticum: até o Portal ter um endereço por artigo, cada degrau leva à Sala e diz isso.
     steps: [
-      { numeral: "I", title: "O que é o hermetismo", meta: "Artigo", href: `${PORTAL}/salas/corpus-hermeticum` },
-      { numeral: "II", title: "Poimandres: a visão de Hermes", meta: "Artigo", href: `${PORTAL}/salas/corpus-hermeticum` },
-      { numeral: "III", title: "As sete esferas", meta: "Artigo", href: `${PORTAL}/salas/corpus-hermeticum` },
-      { numeral: "IV", title: "O Asclépio em latim", meta: "Artigo", href: `${PORTAL}/salas/corpus-hermeticum` },
+      { numeral: "I", title: "O que é o hermetismo", meta: "Artigo · na Sala Corpus Hermeticum", href: `${PORTAL}/salas/corpus-hermeticum` },
+      { numeral: "II", title: "Poimandres: a visão de Hermes", meta: "Artigo · na Sala Corpus Hermeticum", href: `${PORTAL}/salas/corpus-hermeticum` },
+      { numeral: "III", title: "As sete esferas", meta: "Artigo · na Sala Corpus Hermeticum", href: `${PORTAL}/salas/corpus-hermeticum` },
+      { numeral: "IV", title: "O Asclépio em latim", meta: "Artigo · na Sala Corpus Hermeticum", href: `${PORTAL}/salas/corpus-hermeticum` },
     ],
   },
   artigos: {
     label: "No acervo",
-    line1: "Artigos,",
-    line2: "vídeos e verbetes.",
-    text: "Comece por um documentário do canal ou por uma leitura dentro das Salas.",
-    filtersLabel: "Filtrar por tipo",
+    line1: "Artigos e vídeos",
+    line2: "para ampliar sua busca.",
+    text: "Explore as publicações da Curadoria: leituras, documentários e vídeos curtos sobre diferentes tradições, conhecimentos e perspectivas.",
+    filtersLabel: "Filtrar por formato",
     filters: [
       { id: "all", label: "Todos" },
       { id: "artigo", label: "Artigos" },
       { id: "video", label: "Vídeos" },
-      { id: "verbete", label: "Verbetes" },
+      { id: "short", label: "Shorts" },
     ],
-    // Todas as imagens vêm do canal oficial: capas dos vídeos e dos Shorts. Artigos e verbete levam à Sala até haver URLs canônicas.
+    groups: [
+      { id: "video", label: "Vídeos" },
+      { id: "short", label: "Shorts" },
+      { id: "artigo", label: "Artigos" },
+    ],
+    pageSize: { video: 4, short: 4, artigo: 3 },
+    more: "Mostrar mais",
+    // Vídeos e Shorts do canal oficial, com as capas do próprio YouTube (i.ytimg.com). Os artigos levam à Sala até o
+    // Portal ter um endereço por artigo. Quando houver integração, esta lista passa a vir das publicações do Portal.
     items: [
-      { id: "urantia", kind: "video", source: "A Sala de Urântia", title: "O Livro de Urântia: origem, universo e Jesus", meta: "Vídeo · 17 min", action: "Assistir", image: "/images/salas/urantia.webp", wide: true, alt: "Capa do documentário: livro aberto diante da Terra vista do espaço", focus: "92% 50%", href: video("BMd3HC6ZpKY"), external: true },
-      { id: "nag-hammadi", kind: "video", source: "A Sala de Nag Hammadi", title: "Nag Hammadi: os textos esquecidos e a porta da consciência", meta: "Vídeo · 28 min", action: "Assistir", image: "/images/artigos/capa-nag-hammadi.webp", alt: "Capa do documentário: livros e jarros antigos diante de uma porta iluminada numa caverna", focus: "50% 50%", href: video("tcIkPbnpHLo"), external: true },
-      { id: "enoque", kind: "video", source: "Documentário especial", title: "Enoque: para onde ele foi?", meta: "Trailer · 1 min", action: "Assistir", image: "/images/salas/enoque.webp", wide: true, alt: "Capa do trailer: homem de barba olha para o alto diante de uma espiral de luz", focus: "4% 50%", href: video("_YBJhQ2C6jc"), external: true },
-      { id: "tome", kind: "artigo", source: "Biblioteca de Nag Hammadi", title: "O Evangelho de Tomé e os 114 ditos", meta: "Artigo", action: "Ver na Sala", image: "/images/artigos/capa-evangelho-tome.webp", alt: "Figura de capuz lê um livro à luz de vela numa sala de pedra", href: `${PORTAL}/salas/nag-hammadi` },
-      { id: "poimandres", kind: "artigo", source: "Corpus Hermeticum", title: "Poimandres, §24–26: a subida pelas esferas", meta: "Fonte primária", action: "Ver na Sala", image: "/images/artigos/capa-esferas.webp", alt: "Figura caminha por um corredor de pedra em direção à luz", href: `${PORTAL}/salas/corpus-hermeticum` },
-      { id: "tabua-esmeralda", kind: "verbete", source: "O Caibalion", title: "A Tábua de Esmeralda", meta: "Verbete", action: "Ver na Sala", image: "/images/artigos/capa-tabua.webp", alt: "Homem observa uma peça de madeira descer uma rampa e derrubar blocos, com o livro O Caibalion sobre a mesa", focus: "50% 8%", href: `${PORTAL}/salas/caibalion` },
+      { id: "urantia", kind: "video", source: "Sala O Livro de Urântia", title: "O Livro de Urântia: origem, universo e Jesus", meta: "Vídeo · 17 min", action: "Assistir", image: "/images/salas/urantia.webp", alt: "Capa do documentário: livro aberto diante da Terra vista do espaço", href: video("BMd3HC6ZpKY"), external: true },
+      { id: "nag-hammadi", kind: "video", source: "Sala Biblioteca de Nag Hammadi", title: "Nag Hammadi: os textos esquecidos e a porta da consciência", meta: "Vídeo · 28 min", action: "Assistir", image: "/images/salas/nag-hammadi.webp", alt: "Capa do documentário: livros e jarros antigos diante de uma porta iluminada numa caverna", href: video("tcIkPbnpHLo"), external: true },
+      { id: "espiral", kind: "video", source: "Canal A Sala dos Buscadores", title: "E se o tempo fosse uma espiral?", meta: "Vídeo", action: "Assistir", image: "/images/salas/espiral.webp", alt: "Capa do vídeo: espiral de luz no céu", href: video("WdfozbD1Lyo"), external: true },
+      { id: "enoque", kind: "video", source: "Documentário especial", title: "Enoque: para onde ele foi?", meta: "Trailer · 1 min", action: "Assistir", image: "/images/salas/enoque.webp", alt: "Capa do trailer: homem de barba olha para o alto diante de uma espiral de luz", href: video("_YBJhQ2C6jc"), external: true },
+      { id: "short-caibalion-cotidiano", kind: "short", source: "Sala O Caibalion", title: "O que o Caibalion pode revelar sobre o seu cotidiano?", meta: "Short", action: "Assistir", image: "/images/shorts/14tlXFyioSs.webp", alt: "Capa do Short: homem parado numa calçada movimentada da cidade, à noite", href: short("14tlXFyioSs"), external: true },
+      { id: "short-114-dizeres", kind: "short", source: "Sala Biblioteca de Nag Hammadi", title: "Os 114 dizeres", meta: "Short", action: "Assistir", image: "/images/shorts/7AtH6x1QTRk.webp", alt: "Capa do Short sobre o Evangelho de Tomé", href: short("7AtH6x1QTRk"), external: true },
+      { id: "short-biblia-editada", kind: "short", source: "Sala Fé e Poder", title: "A Bíblia foi escrita ou editada?", meta: "Short", action: "Assistir", image: "/images/shorts/aw_FZo91z_A.webp", alt: "Capa do Short sobre a formação da Bíblia", href: short("aw_FZo91z_A"), external: true },
+      { id: "short-urantia-opinioes", kind: "short", source: "Sala O Livro de Urântia", title: "Por que o Livro de Urântia divide opiniões?", meta: "Short", action: "Assistir", image: "/images/shorts/EGJycr9Llvs.webp", alt: "Capa do Short sobre O Livro de Urântia", href: short("EGJycr9Llvs"), external: true },
+      { id: "short-apocrifos", kind: "short", source: "Sala Apócrifos do Cristianismo Primitivo", title: "Evangelhos que ficaram fora da Bíblia?", meta: "Short", action: "Assistir", image: "/images/shorts/XF7q4wuiIvc.webp", alt: "Capa do Short sobre os evangelhos apócrifos", href: short("XF7q4wuiIvc"), external: true },
+      { id: "short-caibalion-principios", kind: "short", source: "Sala O Caibalion", title: "Os 7 princípios e um novo olhar", meta: "Short · Ep. 01", action: "Assistir", image: "/images/shorts/MOHUsZPR0vs.webp", alt: "Capa do primeiro episódio da série sobre O Caibalion", href: short("MOHUsZPR0vs"), external: true },
+      { id: "short-sophia", kind: "short", source: "Sala Biblioteca de Nag Hammadi", title: "A Sabedoria caiu? O mistério de Sophia", meta: "Short", action: "Assistir", image: "/images/shorts/ArtbSP6eW5M.webp", alt: "Capa do Short sobre Sophia nos textos de Nag Hammadi", href: short("ArtbSP6eW5M"), external: true },
+      { id: "short-niceia", kind: "short", source: "Sala Fé e Poder", title: "Niceia: o imperador podia ordenar a fé?", meta: "Short", action: "Assistir", image: "/images/shorts/cLc82GYMb6A.webp", alt: "Capa do Short sobre o Concílio de Niceia", href: short("cLc82GYMb6A"), external: true },
+      { id: "short-enoque", kind: "short", source: "Documentário especial", title: "O Livro de Enoque: por que ficou fora da Bíblia?", meta: "Short", action: "Assistir", image: "/images/shorts/7vvbVV-ySgg.webp", alt: "Capa do Short sobre o Livro de Enoque", href: short("7vvbVV-ySgg"), external: true },
+      { id: "tome", kind: "artigo", source: "Sala Biblioteca de Nag Hammadi", title: "O Evangelho de Tomé e os 114 ditos", meta: "Artigo", action: "Ver na Sala", image: "/images/artigos/capa-evangelho-tome.webp", alt: "Figura de capuz lê um livro à luz de vela numa sala de pedra", href: `${PORTAL}/salas/nag-hammadi` },
+      { id: "poimandres", kind: "artigo", source: "Sala Corpus Hermeticum", title: "Poimandres, §24–26: a subida pelas esferas", meta: "Fonte primária", action: "Ver na Sala", image: "/images/artigos/capa-esferas.webp", alt: "Figura caminha por um corredor de pedra em direção à luz", href: `${PORTAL}/salas/corpus-hermeticum` },
     ],
     cta: { label: "Ver o canal no YouTube", href: CANAL, external: true },
   },
@@ -181,7 +202,7 @@ export const site: SiteContent = {
     line1: "Abra espaço para",
     line2: "novas formas de conhecer.",
     text: "Uma curadoria de conhecimentos para explorar, questionar e descobrir no seu próprio ritmo.",
-    cta: acervo,
+    cta: portal,
   },
   footer: {
     logoAlt: "A Sala dos Buscadores",

@@ -6,7 +6,7 @@ import { STEP_RISE, STEP_THRESHOLDS, Trilhas } from "./Trilhas";
 describe("Trilhas", () => {
   it("title and 4 steps as links", () => {
     render(<Trilhas content={site.trilhas} />);
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Trilha de conhecimento em degraus");
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Leituras para começar sua jornada.");
     for (const step of site.trilhas.steps) {
       expect(screen.getAllByRole("link", { name: new RegExp(step.title) }).length).toBeGreaterThan(0);
     }

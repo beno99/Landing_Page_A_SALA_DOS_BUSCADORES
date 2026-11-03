@@ -16,7 +16,7 @@ async function visibility(locator: Locator) {
   });
 }
 
-const IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "artigos", "leitura", "conquistas", "anfitriao", "faq", "chamado"];
+const IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "artigos", "leitura", "jornada", "anfitriao", "faq", "chamado"];
 
 test("the whole page renders with no console errors", async ({ page }) => {
   const errors: string[] = [];

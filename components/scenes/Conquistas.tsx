@@ -10,7 +10,7 @@ const EASE_CINEMA = [0.22, 1, 0.36, 1] as const;
 export function Conquistas({ content }: { content: ConquistasContent }) {
   const reduced = usePrefersReducedMotion();
   return (
-    <section id="conquistas" aria-labelledby="conquistas-title" className="section-y bg-noir">
+    <section id="jornada" aria-labelledby="conquistas-title" className="section-y bg-noir">
       <div className="container-page flex flex-col items-center gap-[clamp(40px,5vw,62px)]">
         <SectionLabel tone="dark">{content.label}</SectionLabel>
         <Reveal>

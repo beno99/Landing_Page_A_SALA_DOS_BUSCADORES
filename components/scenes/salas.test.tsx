@@ -9,7 +9,7 @@ describe("Salas", () => {
   it("tunnel: title and one link with each Sala's name", () => {
     setMatchMedia(() => false);
     render(<Salas content={site.salas} />);
-    expect(screen.getByRole("heading", { name: "A sala do primeiro ciclo" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Conhecimentos que abrem novas perspectivas." })).toBeInTheDocument();
     for (const sala of site.salas.salas) {
       expect(screen.getByRole("link", { name: sala.name })).toBeInTheDocument();
     }

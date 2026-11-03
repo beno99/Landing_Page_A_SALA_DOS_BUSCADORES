@@ -4,43 +4,58 @@ import { describe, expect, it } from "vitest";
 import { site } from "@/content/site";
 import { Artigos } from "./Artigos";
 
-const { items } = site.artigos;
+const { items, pageSize } = site.artigos;
 const cards = () => document.querySelectorAll("#artigos article");
+const ofKind = (k: string) => items.filter((i) => i.kind === k);
+const firstPage = (k: "artigo" | "video" | "short") => Math.min(ofKind(k).length, pageSize[k]);
 
 describe("Artigos", () => {
-  it("title, and every card links straight to its destination", () => {
+  it("title, and every visible card links straight to its destination", () => {
     render(<Artigos content={site.artigos} />);
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Artigos, vídeos e verbetes");
-    for (const item of items) {
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Artigos e vídeos para ampliar sua busca.");
+    const visible = (["video", "short", "artigo"] as const).flatMap((k) => ofKind(k).slice(0, pageSize[k]));
+    for (const item of visible) {
       expect(screen.getByRole("link", { name: `${item.action}: ${item.title}` })).toHaveAttribute("href", item.href);
-      expect(screen.getByRole("heading", { level: 3, name: item.title })).toBeInTheDocument();
     }
-    expect(cards()).toHaveLength(items.length);
+    expect(cards()).toHaveLength(visible.length);
   });
 
-  it("the filter really narrows the grid, and Todos brings everything back", async () => {
+  it("each filter shows only its format, and Todos brings the groups back", async () => {
     render(<Artigos content={site.artigos} />);
     await userEvent.click(screen.getByRole("button", { name: "Vídeos" }));
     expect(screen.getByRole("button", { name: "Vídeos" })).toHaveAttribute("aria-pressed", "true");
-    expect(cards()).toHaveLength(items.filter((i) => i.kind === "video").length);
-    await userEvent.click(screen.getByRole("button", { name: "Verbetes" }));
-    expect(cards()).toHaveLength(items.filter((i) => i.kind === "verbete").length);
+    expect(cards()).toHaveLength(firstPage("video"));
+    await userEvent.click(screen.getByRole("button", { name: "Shorts" }));
+    expect(cards()).toHaveLength(firstPage("short"));
+    await userEvent.click(screen.getByRole("button", { name: "Artigos" }));
+    expect(cards()).toHaveLength(firstPage("artigo"));
     await userEvent.click(screen.getByRole("button", { name: "Todos" }));
-    expect(cards()).toHaveLength(items.length);
+    expect(cards()).toHaveLength(firstPage("video") + firstPage("short") + firstPage("artigo"));
   });
 
-  it("every filter option has something to show", () => {
-    for (const f of site.artigos.filters) {
-      if (f.id !== "all") expect(items.some((i) => i.kind === f.id)).toBe(true);
-    }
-  });
-
-  it("videos open on the channel, in a new tab", () => {
+  it("'Mostrar mais' loads the rest of a format progressively, then disappears", async () => {
     render(<Artigos content={site.artigos} />);
-    for (const item of items.filter((i) => i.kind === "video")) {
-      const link = screen.getByRole("link", { name: `${item.action}: ${item.title}` });
-      expect(link.getAttribute("href")).toMatch(/^https:\/\/www\.youtube\.com\/watch\?v=/);
-      expect(link).toHaveAttribute("target", "_blank");
+    await userEvent.click(screen.getByRole("button", { name: "Shorts" }));
+    const total = ofKind("short").length;
+    expect(total).toBeGreaterThan(pageSize.short);
+    while (screen.queryByRole("button", { name: /Mostrar mais/ })) {
+      await userEvent.click(screen.getByRole("button", { name: /Mostrar mais/ }));
+    }
+    expect(cards()).toHaveLength(total);
+  });
+
+  it("each format keeps its cover proportion", () => {
+    render(<Artigos content={site.artigos} />);
+    const coverOf = (title: string) => screen.getByRole("heading", { name: title }).closest("article")!.firstElementChild!;
+    expect(coverOf(ofKind("video")[0].title)).toHaveClass("aspect-video");
+    expect(coverOf(ofKind("short")[0].title)).toHaveClass("aspect-[9/16]");
+    expect(coverOf(ofKind("artigo")[0].title)).toHaveClass("aspect-[4/5]");
+  });
+
+  it("videos and Shorts open on YouTube, in a new tab", () => {
+    for (const item of items.filter((i) => i.kind !== "artigo")) {
+      expect(item.href).toMatch(/^https:\/\/www\.youtube\.com\/(watch\?v=|shorts\/)/);
+      expect(item.external).toBe(true);
     }
   });
 });
