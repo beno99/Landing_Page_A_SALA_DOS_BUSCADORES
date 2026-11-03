@@ -10,7 +10,7 @@ import { EditorDemo } from "./EditorDemo";
 describe("Página de anfitriões", () => {
   it("the hero is a plain first screen: title, both actions and no sky video", () => {
     const { container } = render(<HeroAnfitrioes content={anfitrioes.hero} />);
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Abra a sua Sala no acervo");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Seu conhecimento pode abrir novos caminhos de descoberta.");
     expect(screen.getByRole("link", { name: anfitrioes.hero.cta.label })).toHaveAttribute("href", anfitrioes.hero.cta.href);
     expect(screen.getByRole("link", { name: anfitrioes.hero.secondary.label })).toHaveAttribute("href", "#sala");
     expect(container.querySelector("video")).toBeNull();
@@ -18,7 +18,7 @@ describe("Página de anfitriões", () => {
 
   it("each section keeps its title and items", () => {
     render(<PorQue content={anfitrioes.porQue} />);
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Curadoria de museu, com a sua assinatura.");
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Diferentes vozes, autoria reconhecida.");
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(anfitrioes.porQue.reasons.length);
   });
 
@@ -27,6 +27,24 @@ describe("Página de anfitriões", () => {
     expect(screen.getByText(anfitrioes.sala.profile.name)).toBeInTheDocument();
     expect(screen.getByText(anfitrioes.sala.card.note)).toBeInTheDocument();
     expect(screen.queryAllByRole("link")).toHaveLength(0);
+  });
+
+  it("the public preview shows only published articles; drafts and reviews live in the separate private panel", () => {
+    expect(anfitrioes.sala.publicArticles.length).toBeGreaterThan(0);
+    const published = anfitrioes.sala.panel.items.filter((i) => i.state === "Publicado").map((i) => i.title);
+    expect(anfitrioes.sala.publicArticles.map((a) => a.title)).toEqual(published);
+    render(<SuaSala content={anfitrioes.sala} />);
+    const publicBox = screen.getByRole("heading", { name: anfitrioes.sala.publicLabel }).parentElement!;
+    expect(publicBox).not.toHaveTextContent("Em revisão");
+    expect(publicBox).not.toHaveTextContent("Rascunho");
+  });
+
+  it("the example Sala about the Gospel of Thomas no longer talks about the Hymn of the Pearl", () => {
+    const json = JSON.stringify(anfitrioes) + JSON.stringify(site.anfitriao);
+    expect(json).not.toMatch(/Hino da Pérola|Atos de Tomé/);
+    expect(json).not.toContain("Toda afirmação com fonte");
+    expect(json).not.toMatch(/aprova ou reprova/);
+    expect(json).not.toMatch(/salvo sozinho|citam a sua Sala|entra no Comparar/);
   });
 
   it("five steps, in order", () => {
@@ -42,7 +60,7 @@ describe("Página de anfitriões", () => {
   });
 
   it("the page's anchors all exist on it", () => {
-    const ids = ["por-que", "sala", "editor", "como-funciona", "faq"];
+    const ids = ["por-que", "sala", "editor", "como-funciona", "politica", "faq"];
     for (const l of anfitrioes.nav.links) if (l.href.startsWith("#")) expect(ids).toContain(l.href.slice(1));
     expect(JSON.stringify(anfitrioes)).not.toContain('"href":"#"');
   });
@@ -60,8 +78,20 @@ describe("EditorDemo", () => {
 });
 
 describe("Seção de anfitriões da página principal", () => {
-  it("leads to the dedicated page", () => {
+  it("invitation, three steps, three demonstration cards (no links) with seal and author, and both actions", () => {
     render(<Anfitriao content={site.anfitriao} />);
-    expect(screen.getByRole("link", { name: site.anfitriao.secondary.label })).toHaveAttribute("href", "/anfitrioes");
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Seu conhecimento pode abrir novos caminhos de descoberta.");
+    for (const s of site.anfitriao.steps) expect(screen.getByRole("heading", { level: 3, name: new RegExp(s.title) })).toBeInTheDocument();
+    const cards = document.querySelectorAll("#anfitriao article");
+    expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      expect(card).toHaveTextContent(site.anfitriao.seal);
+      expect(card).toHaveTextContent("Por Nome do anfitrião");
+      expect(card).toHaveTextContent(site.anfitriao.exampleNote);
+      expect(card.querySelector("a")).toBeNull();
+    }
+    expect(screen.getByRole("link", { name: site.anfitriao.primary.label })).toHaveAttribute("href", expect.stringMatching(/^mailto:/));
+    expect(screen.getByRole("link", { name: site.anfitriao.secondary.label })).toHaveAttribute("href", "/anfitrioes#politica");
+    expect(screen.getByText(site.anfitriao.contact.email)).toBeInTheDocument();
   });
 });

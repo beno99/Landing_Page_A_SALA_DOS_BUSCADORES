@@ -23,7 +23,7 @@ test("the whole page renders with no console errors", async ({ page }) => {
   page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/A porta\s*continua aberta/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/A porta está aberta\s*para a sua busca\./);
   for (const id of IDS) {
     await page.locator(`#${id}`).scrollIntoViewIfNeeded();
     await expect(page.locator(`#${id}`)).toBeAttached();
@@ -38,7 +38,7 @@ test("the dedicated host page opens from the main page, with no console errors",
   page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/anfitrioes");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Abra a sua Sala\s*no acervo/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Seu conhecimento pode abrir\s*novos caminhos de descoberta\./);
   for (const id of ["por-que", "sala", "editor", "como-funciona", "politica", "faq", "chamado"]) {
     await page.locator(`#${id}`).scrollIntoViewIfNeeded();
     await expect(page.locator(`#${id}`)).toBeAttached();
@@ -70,7 +70,7 @@ test("reduced motion: scenes are not pinned", async ({ page }, info) => {
 test("nav anchors land pinned scenes on their revealed frame", async ({ page }, info) => {
   test.skip(info.project.name !== "desktop");
   await page.goto("/");
-  await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "A Sala", exact: true }).click();
+  await page.getByRole("navigation", { name: "Principal" }).getByRole("link", { name: "A proposta", exact: true }).click();
   await expect(page).toHaveURL(/#curadoria$/);
   const title = page.locator("#curadoria h2");
   await expect.poll(() => visibility(title), { timeout: 10_000 }).toEqual({ opacity: 1, clipped: false, inViewport: true });
@@ -79,8 +79,23 @@ test("nav anchors land pinned scenes on their revealed frame", async ({ page }, 
 test("the Hero CTA leaves the tab order once it has faded", async ({ page }, info) => {
   test.skip(info.project.name !== "desktop");
   await page.goto("/");
-  const cta = page.locator("#inicio").getByRole("link", { name: "Entrar no acervo" });
+  const cta = page.locator("#inicio").getByRole("link", { name: "Entrar no Portal" });
   await expect(cta.locator("xpath=ancestor::*[@inert]")).toHaveCount(0);
   await page.evaluate(() => window.scrollTo(0, innerHeight * 1.5));
   await expect(cta.locator("xpath=ancestor::*[@inert]")).toHaveCount(1);
+});
+
+test("the showcase reaches each of the eight covers once by keyboard", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop");
+  await page.goto("/");
+  await expect(page.locator("#salas a:not([aria-hidden='true'])")).toHaveCount(8);
+  await expect(page.locator("#salas a[aria-hidden='true'][tabindex='-1']")).toHaveCount(1);
+});
+
+test("FAQ answers start closed and open from their buttons", async ({ page }) => {
+  await page.goto("/#faq");
+  const first = page.locator("#faq button").first();
+  await expect(first).toHaveAttribute("aria-expanded", "false");
+  await first.click();
+  await expect(first).toHaveAttribute("aria-expanded", "true");
 });

@@ -4,7 +4,6 @@ import { describe, expect, it, vi } from "vitest";
 import { site } from "@/content/site";
 import { Leitura } from "./Leitura";
 import { Jornada } from "./Jornada";
-import { Anfitriao } from "./Anfitriao";
 
 describe("Leitura", () => {
   const [hermetica, tome] = site.leitura.passages;
@@ -63,15 +62,5 @@ describe("Jornada", () => {
     }
     expect(screen.getByRole("list", { name: site.jornada.titlesTitle })).toHaveTextContent("Explorador→Investigador→Articulador→Aprofundador");
     expect(screen.getByRole("link", { name: site.jornada.cta.label })).toHaveAttribute("href", site.jornada.cta.href);
-  });
-});
-
-describe("Anfitriao", () => {
-  it("has the candidacy action, and the example card never links to a Sala", () => {
-    render(<Anfitriao content={site.anfitriao} />);
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Abra a sua Sala.");
-    expect(screen.getByRole("link", { name: site.anfitriao.primary.label })).toHaveAttribute("href", site.anfitriao.primary.href);
-    expect(screen.getAllByRole("link")).toHaveLength(2);
-    expect(screen.getByText(site.anfitriao.card.note)).toBeInTheDocument();
   });
 });

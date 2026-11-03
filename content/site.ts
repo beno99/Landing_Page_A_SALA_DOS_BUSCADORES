@@ -7,6 +7,9 @@ const short = (id: string) => `https://www.youtube.com/shorts/${id}`;
 // Página inicial do Portal. Quem não está logado passa pelo login e volta para cá (?voltar=/).
 const portal: Link = { label: "Entrar no Portal", href: PORTAL };
 const youtube: Link = { label: "YouTube", href: CANAL, external: true };
+// E-mail de contato e de candidatura. A confirmar com a equipe antes de publicar (ver orientações L09).
+export const EMAIL = "contato@asaladosbuscadores.com.br";
+const candidatura = `mailto:${EMAIL}?subject=Candidatura%20para%20Anfitri%C3%A3o`;
 
 const navLinks: Link[] = [
   { label: "Início", href: "#inicio" },
@@ -240,66 +243,100 @@ export const site: SiteContent = {
     ctaNote: "A Jornada do Buscador está em preparação. Acesso gratuito ao Portal.",
   },
   anfitriao: {
-    label: "Para anfitriões",
-    line1: "Tem uma pesquisa?",
-    line2: "Abra a sua Sala.",
-    text: "Pesquisadores, professores e estudiosos de uma tradição podem manter uma Sala própria no acervo, com os seus artigos e as suas fontes, ao lado das Salas da curadoria.",
+    label: "Espaço para Anfitriões",
+    line1: "Seu conhecimento pode abrir",
+    line2: "novos caminhos de descoberta.",
+    text: "Compartilhe estudos, experiências e perspectivas em uma Sala com a sua assinatura. Autores, pesquisadores, educadores, comunicadores e representantes de tradições podem apresentar suas propostas e contribuir para ampliar os olhares sobre a existência.",
     steps: [
-      { title: "Candidatura", text: "Você conta a sua pesquisa." },
-      { title: "Convite", text: "A curadoria analisa e convida." },
-      { title: "Revisão", text: "Nada vai ao ar sem aprovação." },
+      { title: "Apresente sua proposta", text: "Conte o tema, sua abordagem e o que deseja compartilhar." },
+      { title: "Prepare sua Sala", text: "Após a aprovação, organize seus conteúdos e referências." },
+      { title: "Publique com acompanhamento", text: "A Curadoria revisa os materiais antes da publicação." },
     ],
+    examplesTitle: "Diferentes vozes, autoria reconhecida.",
+    examplesText: "Exemplos de Salas de Anfitriões. Cada proposta preserva sua perspectiva e apresenta suas referências.",
+    seal: "Sala de Anfitrião",
+    // Demonstração: nomes e dados não representam pessoas ou Salas cadastradas. Imagens do acervo visual do projeto.
+    examples: [
+      { image: "/images/anfitrioes/exemplo-tome.webp", theme: "Textos e tradições", title: "Leituras do Evangelho de Tomé", description: "Textos antigos, contexto histórico e perguntas sobre o conhecimento.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
+      { image: "/images/anfitrioes/exemplo-fe-memoria.webp", theme: "História e cultura", title: "Fé, memória e sociedade", description: "Religião, símbolos e autoridade em diferentes contextos culturais.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
+      { image: "/images/anfitrioes/exemplo-cosmos.webp", theme: "Cosmologias e filosofia", title: "Cosmos e sentidos da existência", description: "Cosmologias espirituais e filosóficas em diálogo com a experiência humana.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
+    ],
+    exampleNote: "Exemplo ilustrativo · sem publicação real",
     // Até haver formulário, a candidatura começa por e-mail.
-    primary: { label: "Quero ser anfitrião", href: "mailto:contato@asaladosbuscadores.com.br?subject=Candidatura%20para%20anfitri%C3%A3o" },
-    secondary: { label: "Como funciona", href: "/anfitrioes" },
-    seal: "Anfitrião · revisado pela curadoria",
-    caption: "Exemplo de Sala de anfitriã (perfil de demonstração)",
+    primary: { label: "Quero ser Anfitrião", href: candidatura },
+    secondary: { label: "Conhecer os critérios de participação", href: "/anfitrioes#politica" },
+    contact: { label: "Sem aplicativo de e-mail? Escreva para", email: EMAIL },
     card: {
-      image: "/images/anfitrioes/claustro.webp",
-      count: "2 conteúdos",
+      image: "/images/anfitrioes/exemplo-tome.webp",
+      count: "2 conteúdos publicados",
       title: "Leituras do Evangelho de Tomé",
-      description: "Sala de anfitriã · Helena Varga (demonstração)",
+      description: "Sala de Anfitrião · Nome do anfitrião (demonstração)",
       level: "Iniciante",
       updated: "Atualizada em 7 out 2026",
       note: "Exemplo de demonstração",
     },
   },
   faq: {
-    label: "Dúvidas",
-    line1: "Perguntas",
-    line2: "frequentes.",
-    invite: "Não achou o que procurava?",
-    email: "contato@asaladosbuscadores.com.br",
+    label: "A Sala dos Buscadores",
+    title: "Sua busca começa com uma pergunta.",
+    subtitle: "Conheça o Portal, encontre seu ponto de partida e explore no seu ritmo.",
     items: [
-      { question: "A Sala dos Buscadores defende alguma religião?", answer: "Não. O acervo organiza tradições religiosas, espirituais e filosóficas com neutralidade doutrinária. As Salas aparecem em ordem alfabética, e a ordem não indica importância." },
-      { question: "A conta é paga?", answer: "Não. A conta é gratuita." },
-      { question: "Quem escreve os conteúdos?", answer: "As equipes editoriais de cada Sala e anfitriões convidados. Nada vai ao ar sem a revisão da curadoria." },
-      { question: "Como funciona o assistente?", answer: "A IA organiza o que o acervo diz; não determina qual crença é verdadeira." },
-      { question: "Preciso informar minha religião?", answer: "Não. Esse campo é opcional no cadastro." },
+      { question: "Preciso seguir alguma religião para participar?", answer: "O Portal acolhe diferentes crenças e também quem não segue uma religião. Aqui, você encontra tradições e perspectivas em seus contextos e constrói seu próprio percurso de estudo." },
+      { question: "O acesso ao Portal é gratuito?", answer: "Sim. A conta é gratuita e permite acompanhar seu percurso no acervo." },
+      { question: "Quem produz os artigos e vídeos?", answer: "O acervo reúne conteúdos da Curadoria e de Anfitriões, com autoria identificada. Os materiais passam por revisão editorial antes da publicação; cada autor preserva sua perspectiva." },
+      { question: "Como o assistente pode ajudar na minha busca?", answer: "Use o assistente para explorar assuntos e encontrar caminhos de leitura no acervo. Ele é uma ferramenta de apoio: consulte as fontes indicadas e avalie as respostas com senso crítico." },
+      { question: "Preciso informar minha religião ou convicção?", answer: "Não. Essa informação é opcional. Você pode explorar o acervo sem declarar uma crença." },
+      { question: "Como posso me tornar Anfitrião?", answer: "Apresente seu tema, sua abordagem e os materiais que deseja compartilhar. A Curadoria avalia a proposta e orienta os próximos passos para a criação da sua Sala." },
     ],
+    contactLabel: "Ainda tem uma dúvida?",
+    contact: { label: "Fale com a equipe pelos canais oficiais.", href: `mailto:${EMAIL}` },
   },
   chamado: {
-    line1: "Abra espaço para",
-    line2: "novas formas de conhecer.",
-    text: "Uma curadoria de conhecimentos para explorar, questionar e descobrir no seu próprio ritmo.",
+    label: "Continue sua busca",
+    line1: "Uma pergunta pode abrir",
+    line2: "novos caminhos.",
+    text: "Explore Salas, artigos e vídeos sobre tradições, filosofias e diferentes maneiras de compreender a existência. Construa sua Jornada do Buscador, no seu ritmo.",
     cta: portal,
+    support: "Conta gratuita • Diferentes perspectivas • Autoria identificada",
+    brand: { name: "A Sala dos Buscadores", tagline: "Conhecer. Comparar. Refletir." },
   },
   footer: {
-    logoAlt: "A Sala dos Buscadores",
-    description: "Um acervo para quem busca: tradições, textos e símbolos organizados com rigor e sem hierarquia.",
+    name: "A Sala dos Buscadores",
+    description: "Um espaço de estudo e encontro entre tradições, fontes e perspectivas.",
+    motto: "Sua busca, com liberdade para perguntar.",
+    // Caminhos a partir da raiz ("/#…"), para o mesmo rodapé funcionar também em /anfitrioes.
     columns: [
-      { title: "Menu", links: navLinks.filter((l) => l.href !== "#perguntas") },
       {
-        title: "Legal",
+        title: "Explore",
         links: [
+          { label: "Portal", href: PORTAL },
+          { label: "Salas", href: `${PORTAL}/salas` },
+          { label: "Artigos e vídeos", href: "/#artigos" },
+          { label: "Jornada do Buscador", href: "/#jornada" },
+        ],
+      },
+      {
+        title: "Participe",
+        links: [
+          { label: "Quero ser Anfitrião", href: "/anfitrioes" },
+          { label: "Perguntas frequentes", href: "/#faq" },
+          { label: "Contato", href: `mailto:${EMAIL}` },
+        ],
+      },
+      {
+        title: "Transparência",
+        links: [
+          { label: "Política editorial", href: "/anfitrioes#politica" },
           { label: "Privacidade e LGPD", href: `${PORTAL}/sobre#privacidade` },
           { label: "Termos de uso", href: `${PORTAL}/sobre#termos` },
         ],
       },
-      { title: "Social", links: [youtube] },
     ],
-    copyright: "2026 © A Sala dos Buscadores",
-    credit: "Feito com cuidado pela equipe da Sala",
+    socialTitle: "Acompanhe o canal",
+    // Instagram, TikTok, Facebook e X entram aqui quando os endereços oficiais forem confirmados.
+    social: [youtube],
+    contact: { label: "E-mail de contato", href: `mailto:${EMAIL}` },
+    copyright: "A Sala dos Buscadores",
     backToTop: "Voltar ao topo",
   },
 };

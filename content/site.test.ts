@@ -17,7 +17,7 @@ describe("site content", () => {
     expect(new Set(site.perguntas.themes).size).toBe(site.perguntas.themes.length);
     expect(site.perguntas.show).toBeLessThanOrEqual(site.perguntas.themes.length);
     expect(site.trilhas.steps).toHaveLength(4);
-    expect(site.faq.items).toHaveLength(5);
+    expect(site.faq.items).toHaveLength(6);
   });
 
   it("contains no leftover template text", () => {
@@ -36,8 +36,6 @@ describe("site content", () => {
   it("menu follows the page order", () => {
     const order = site.nav.links.map((l) => SECTION_IDS.indexOf(l.href.replace("#", "")));
     expect(order).toEqual([...order].sort((a, b) => a - b));
-    const footerMenu = site.footer.columns.find((c) => c.title === "Menu")!.links.map((l) => l.href);
-    expect(footerMenu).toEqual(site.nav.links.map((l) => l.href).filter((h) => footerMenu.includes(h)));
   });
 
   it("no placeholder links are left", () => {

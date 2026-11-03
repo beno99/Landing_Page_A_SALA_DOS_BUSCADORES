@@ -65,15 +65,15 @@ export function Nav({ nav }: { nav: NavContent }) {
               <Pill href={nav.cta.href} size="sm">{nav.cta.label}</Pill>
             </li>
           </ul>
-          <div className="flex items-center gap-2 lg:hidden">
-            <Pill href={nav.cta.href} size="sm">{nav.cta.label}</Pill>
+          <div className="flex items-center gap-1.5 min-[360px]:gap-2 lg:hidden">
+            <Pill href={nav.cta.href} size="sm" className="max-[359px]:px-3.5">{nav.cta.label}</Pill>
             <button
               ref={menuButton}
               type="button"
               aria-expanded={open}
               aria-controls="menu-mobile"
               onClick={() => setOpen((o) => !o)}
-              className="btn btn-secondary rounded-full px-4 py-2 text-sm font-medium pointer-coarse:min-h-11"
+              className="btn btn-secondary rounded-full px-3.5 py-2 text-sm font-medium pointer-coarse:min-h-11 min-[360px]:px-4"
             >
               {open ? nav.labels.close : nav.labels.menu}
             </button>

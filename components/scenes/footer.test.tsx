@@ -2,43 +2,33 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { site } from "@/content/site";
 import { FooterCurtain } from "./FooterCurtain";
-import { setMatchMedia } from "@/vitest.setup";
 
-describe("FooterCurtain", () => {
-  it("keeps every piece of information: logo, phrase, all columns and links, copyright, credit, back to top", () => {
+describe("Footer", () => {
+  it("mark, phrase, Explore / Participe / Transparência, social, contact, year and back to top", () => {
     render(<FooterCurtain content={site.footer} />);
     const footer = screen.getByRole("contentinfo");
-    expect(screen.getByAltText(site.footer.logoAlt)).toBeInTheDocument();
+    expect(footer.querySelector('img[src*="marca.webp"]')).not.toBeNull();
     expect(footer).toHaveTextContent(site.footer.description);
+    expect(footer).toHaveTextContent(site.footer.motto);
+    expect(site.footer.columns.map((c) => c.title)).toEqual(["Explore", "Participe", "Transparência"]);
     for (const col of site.footer.columns) {
       const nav = screen.getByRole("navigation", { name: col.title });
       for (const link of col.links) expect(nav).toHaveTextContent(link.label);
     }
-    expect(footer).toHaveTextContent(site.footer.copyright);
-    expect(footer).toHaveTextContent(site.footer.credit);
+    expect(screen.getByRole("navigation", { name: site.footer.socialTitle })).toHaveTextContent("YouTube");
+    expect(screen.getByRole("link", { name: site.footer.contact.label })).toHaveAttribute("href", expect.stringMatching(/^mailto:/));
+    expect(footer).toHaveTextContent(`© ${new Date().getFullYear()} ${site.footer.copyright}`);
     expect(screen.getByRole("button", { name: /Voltar ao topo/ })).toBeInTheDocument();
   });
 
-  it("no longer has the giant wordmark", () => {
-    render(<FooterCurtain content={site.footer} />);
-    expect(screen.queryByTestId("footer-wordmark")).toBeNull();
-    expect(screen.queryByText("A SALA DOS BUSCADORES")).toBeNull();
-  });
-});
-
-describe("FooterCurtain fallback", () => {
-  it("renders without the fixed wrapper when the curtain query does not match", () => {
-    setMatchMedia(() => false);
+  it("is never inert or fixed: every link stays reachable by keyboard", () => {
     const { container } = render(<FooterCurtain content={site.footer} />);
+    expect(container.querySelector("[inert]")).toBeNull();
     expect(container.querySelector(".fixed")).toBeNull();
-    expect(screen.getByRole("contentinfo")).toHaveTextContent(site.footer.credit);
   });
-  it("uses the fixed curtain (inert while hidden) when the query matches", () => {
-    setMatchMedia((q) => q.includes("min-width"));
-    const { container } = render(<FooterCurtain content={site.footer} />);
-    const fixed = container.querySelector(".fixed");
-    expect(fixed).not.toBeNull();
-    expect(fixed).toHaveAttribute("inert");
-    setMatchMedia(() => false);
+
+  it("no placeholder or fictitious links", () => {
+    const hrefs = [...site.footer.columns.flatMap((c) => c.links), ...site.footer.social, site.footer.contact].map((l) => l.href);
+    for (const h of hrefs) expect(h).toMatch(/^(https:\/\/|mailto:|\/)/);
   });
 });

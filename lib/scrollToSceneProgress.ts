@@ -37,6 +37,8 @@ export function scrollToTop() {
   const instant = prefersReducedMotion();
   if (lenis) lenis.scrollTo(0, { immediate: instant, force: true });
   else window.scrollTo({ top: 0, behavior: instant ? "instant" : "smooth" });
+  // Focus follows the reader back to the top: the first link of the header (the mark, "início").
+  document.querySelector<HTMLElement>("header a")?.focus({ preventScroll: true });
 }
 
 /**

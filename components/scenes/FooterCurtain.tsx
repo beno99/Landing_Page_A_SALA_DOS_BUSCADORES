@@ -1,76 +1,38 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { useMotionValueEvent, useScroll } from "motion/react";
+import NextLink from "next/link";
 import type { FooterContent } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { scrollToTop } from "@/lib/scrollToSceneProgress";
-import { useMediaQuery, usePrefersReducedMotion } from "@/lib/useMediaQuery";
 
-// The curtain needs the whole footer to fit on screen; it is compact now, so most viewports qualify.
-const CURTAIN_QUERY = "(min-width: 768px) and (min-height: 560px)";
-const OFFSET: ["start end", "end end"] = ["start end", "end end"];
-
+// A plain footer at the end of the page: never hidden behind an animation, every link reachable by
+// keyboard and on phones (the former "curtain" kept it inert until the page was scrolled to the end).
 export function FooterCurtain({ content }: { content: FooterContent }) {
-  const reduced = usePrefersReducedMotion();
-  const curtain = useMediaQuery(CURTAIN_QUERY);
-  if (reduced || !curtain) return <FooterBody content={content} />;
-  return <CurtainFooter content={content} />;
+  return <FooterBody content={content} />;
 }
 
-/** Revealed from under the page: a spacer as tall as the footer, with the footer fixed beneath it. */
-function CurtainFooter({ content }: { content: FooterContent }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const bodyRef = useRef<HTMLElement>(null);
-  const [height, setHeight] = useState<number>();
-  const { scrollYProgress } = useScroll({ target: ref, offset: OFFSET });
-  const [hidden, setHidden] = useState(true);
-  useMotionValueEvent(scrollYProgress, "change", (v) => setHidden(v <= 0.02));
-  // The page may load already scrolled to the bottom: read the current progress on mount too.
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setHidden(scrollYProgress.get() <= 0.02));
-    return () => cancelAnimationFrame(id);
-  }, [scrollYProgress]);
-  // The spacer follows the footer's real height (it changes with the breakpoint and text wrapping).
-  useEffect(() => {
-    const el = bodyRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => setHeight(el.offsetHeight));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
+function FooterBody({ content }: { content: FooterContent }) {
+  const year = new Date().getFullYear();
   return (
-    <div ref={ref} className="relative" style={{ height, clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}>
-      <div className="fixed bottom-0 left-0 w-full" inert={hidden}>
-        <FooterBody content={content} ref={bodyRef} />
-      </div>
-    </div>
-  );
-}
-
-function FooterBody({ content, ref }: { content: FooterContent; ref?: React.Ref<HTMLElement> }) {
-  return (
-    <footer ref={ref} className="flex flex-col gap-10 bg-[#111313] pb-8 pt-12 md:gap-12 md:pt-14">
-      {/* 4-column grid: logo + phrase | Menu | Legal | Social. On phones the logo takes the full row
-          and the link columns pair up two by two, so the footer stays short. */}
+    <footer className="flex flex-col gap-10 bg-[#191b18] pb-8 pt-12 md:pt-14">
+      {/* Mark + phrase | Explore | Participe | Transparência. On phones the mark takes the full row and the
+          link columns pair up, so the footer stays short. */}
       <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.6fr_1fr_1fr_1fr] md:gap-10">
-        <div className="col-span-2 max-w-[320px] md:col-span-1">
-          <Image src="/images/brand/logo.svg" alt={content.logoAlt} width={191} height={58} className="h-auto w-[191px]" />
-          <p className="mt-6 font-sans text-base leading-[1.5] text-white/75">{content.description}</p>
+        <div className="col-span-2 flex max-w-[360px] flex-col gap-5 md:col-span-1">
+          <NextLink href="/#inicio" aria-label={`${content.name}, início`} className="flex w-fit items-center gap-4 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream">
+            <Image src="/images/brand/marca.webp" alt="" width={512} height={435} className="h-auto w-[64px]" />
+            <span aria-hidden="true" className="title-serif text-[26px] leading-[1.1] text-ivory">{content.name}</span>
+          </NextLink>
+          <p className="text-base leading-[1.5] text-white/75">{content.description}</p>
+          <p className="text-base text-gold-light">{content.motto}</p>
         </div>
         {content.columns.map((col) => (
           <nav key={col.title} aria-label={col.title} className="flex flex-col gap-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">{col.title}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">{col.title}</p>
             <ul className="flex flex-col gap-3 pointer-coarse:gap-0">
               {col.links.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    {...(link.external && link.href !== "#" ? { target: "_blank", rel: "noreferrer" } : {})}
-                    className="link-underline inline-block text-base leading-[23.4px] text-white/85 pointer-coarse:py-[11px] hover:text-cream focus-visible:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  >
-                    {link.label}
-                  </a>
+                  <FooterLink link={link} />
                 </li>
               ))}
             </ul>
@@ -78,9 +40,22 @@ function FooterBody({ content, ref }: { content: FooterContent; ref?: React.Ref<
         ))}
       </div>
 
+      <div className="container-page flex flex-col gap-6 border-t border-white/10 pt-6 md:flex-row md:items-end md:justify-between">
+        <nav aria-label={content.socialTitle} className="flex flex-col gap-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">{content.socialTitle}</p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-1">
+            {content.social.map((link) => (
+              <li key={link.label}>
+                <FooterLink link={link} />
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <FooterLink link={content.contact} />
+      </div>
+
       <div className="container-page flex flex-col gap-4 border-t border-white/10 pt-5 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
-        <span>{content.copyright}</span>
-        <span>{content.credit}</span>
+        <span>© {year} {content.copyright}</span>
         <button
           type="button"
           onClick={scrollToTop}
@@ -91,5 +66,19 @@ function FooterBody({ content, ref }: { content: FooterContent; ref?: React.Ref<
         </button>
       </div>
     </footer>
+  );
+}
+
+const LINK_CLASS =
+  "link-underline inline-block text-base leading-[23.4px] text-white/85 pointer-coarse:py-[11px] hover:text-cream focus-visible:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+
+/** Pages of this site ("/…") go through next/link; the Portal, YouTube and e-mail are plain links. */
+function FooterLink({ link }: { link: FooterContent["contact"] }) {
+  if (link.href.startsWith("/")) return <NextLink href={link.href} className={LINK_CLASS}>{link.label}</NextLink>;
+  return (
+    <a href={link.href} {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})} className={LINK_CLASS}>
+      {link.label}
+      {link.external && <span aria-hidden="true"> ↗</span>}
+    </a>
   );
 }

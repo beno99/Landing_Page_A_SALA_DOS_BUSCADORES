@@ -30,7 +30,7 @@ export function HeroAnfitrioes({ content }: { content: AnfitrioesContent["hero"]
         className="container-page flex flex-col items-center gap-7 py-28 text-center"
       >
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-light/90">{content.label}</p>
-        <h1 id="hero-title" className="title-serif text-[clamp(52px,8.9vw,128px)] leading-[0.92]">
+        <h1 id="hero-title" className="title-serif text-balance text-[clamp(40px,6.2vw,92px)] leading-[0.98]">
           <span className="block text-ivory">{content.title[0]}</span>{" "}
           <span className="block italic text-gold">{content.title[1]}</span>
         </h1>
@@ -104,24 +104,31 @@ export function SuaSala({ content }: { content: AnfitrioesContent["sala"] }) {
               <span className="inline-flex rounded-full bg-gold/15 px-3.5 py-2 text-[12.5px] font-semibold tracking-[-0.005em] text-gold-light ring-1 ring-inset ring-gold/50">{profile.seal}</span>
             </div>
 
-            <ul style={DARK_PANEL} className="rounded-3xl px-6 py-2 ring-1 ring-inset ring-white/10">
-              {content.articles.map((a, i) => (
-                <li key={a.title} className={cn("flex flex-col gap-1 py-[18px]", i > 0 && "border-t border-white/10")}>
-                  <span className={cn("text-[11px] font-semibold uppercase tracking-[0.14em]", a.state === "Publicado" ? "text-gold" : "text-white/60")}>Artigo · {a.state}</span>
-                  <span className="title-serif text-[21px] leading-[1.2] text-ivory">{a.title}</span>
-                  <span className="text-sm font-light text-white/75">{a.text}</span>
-                </li>
-              ))}
-            </ul>
+            <div style={DARK_PANEL} className="rounded-3xl px-6 py-5 ring-1 ring-inset ring-white/10">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gold">{content.publicLabel}</h3>
+              <ul>
+                {content.publicArticles.map((a, i) => (
+                  <li key={a.title} className={cn("flex flex-col gap-1 py-[16px]", i > 0 && "border-t border-white/10")}>
+                    <span className="title-serif text-[21px] leading-[1.2] text-ivory">{a.title}</span>
+                    <span className="text-sm font-light text-white/75">{a.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-            <ul className="grid gap-6 sm:grid-cols-2">
-              {content.reach.map((r) => (
-                <li key={r.title} style={DARK_PANEL} className="flex flex-col gap-1.5 rounded-3xl p-6 ring-1 ring-inset ring-white/10">
-                  <h3 className="title-serif text-[21px] leading-tight text-ivory">{r.title}</h3>
-                  <p className="text-[15px] font-light leading-normal text-white/75">{r.text}</p>
-                </li>
-              ))}
-            </ul>
+            {/* A separate example of the private panel: states other than "Publicado" exist only here. */}
+            <div className="rounded-3xl border border-dashed border-white/25 px-6 py-5">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">{content.panel.label}</h3>
+              <p className="mt-1 text-sm font-light text-white/65">{content.panel.note}</p>
+              <ul className="mt-3">
+                {content.panel.items.map((a, i) => (
+                  <li key={a.title} className={cn("flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3", i > 0 && "border-t border-white/10")}>
+                    <span className="text-[15px] text-ivory/90">{a.title}</span>
+                    <span className={cn("text-[11px] font-semibold uppercase tracking-[0.12em]", a.state === "Publicado" ? "text-gold" : "text-white/60")}>{a.state}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

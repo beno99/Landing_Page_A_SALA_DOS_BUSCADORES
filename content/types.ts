@@ -56,24 +56,38 @@ export type JornadaContent = {
   titlesTitle: string; titles: string[]; titlesNote: string;
   cta: Link; ctaNote: string;
 };
+/** A demonstration card of a host's Sala. It is never a link: no such Sala is published. */
+export type HostExample = { image: string; theme: string; title: string; description: string; author: string; authorNote: string };
 export type AnfitriaoContent = {
-  label: string; line1: string; line2: string; text: string; steps: { title: string; text: string }[];
-  primary: Link; secondary: Link; seal: string; caption: string;
+  label: string; line1: string; line2: string; text: string;
+  steps: { title: string; text: string }[];
+  examplesTitle: string; examplesText: string; seal: string; examples: HostExample[]; exampleNote: string;
+  primary: Link; secondary: Link;
+  /** Plain-text fallback for people without an e-mail app configured. */
+  contact: { label: string; email: string };
+  /** Kept for the /anfitrioes demonstration of a host's Sala. */
   card: { image: string; count: string; title: string; description: string; level: string; updated: string; note: string };
 };
-export type ChamadoContent = { line1: string; line2: string; text: string; cta: Link };
+/** `brand`: the side card with the mark; `support`: the short reassurance line under the CTA. */
+export type ChamadoContent = { label?: string; line1: string; line2: string; text: string; cta: Link; support?: string; brand?: { name: string; tagline: string } };
 export type EditorTool = "termo" | "obra" | "citar";
 export type EditorContent = {
   label: string; line1: string; line2: string; text: string; srNote: string; toolbarLabel: string;
   tools: { id: EditorTool; title: string; text: string }[];
   status: { saving: string; saved: string; sent: string };
-  draft: { eyebrow: string; title: string; work: string; term: string; source: string };
+  /** The draft sentence: `before` + work + `middle` + term + `after`, then the citation and `note`. */
+  draft: { eyebrow: string; title: string; before: string; work: string; middle: string; term: string; after: string; note: string; source: string };
   send: { label: string; requirements: string[]; note: string; action: string; done: string };
 };
 export type FaqItem = { question: string; answer: string };
-export type FaqContent = { label: string; line1: string; line2: string; invite: string; email: string; items: FaqItem[] };
+export type FaqContent = { label: string; title: string; subtitle: string; items: FaqItem[]; contactLabel: string; contact: Link };
 export type FooterColumn = { title: string; links: Link[] };
-export type FooterContent = { logoAlt: string; description: string; columns: FooterColumn[]; copyright: string; credit: string; backToTop: string };
+export type FooterContent = {
+  name: string; description: string; motto: string; columns: FooterColumn[];
+  socialTitle: string; social: Link[]; contact: Link;
+  /** "©" + the current year is added in the component. */
+  copyright: string; backToTop: string;
+};
 export type NavContent = { links: Link[]; cta: Link; home?: string; labels: { menu: string; close: string; primary: string; logo: string } };
 export type SiteContent = {
   meta: { title: string; description: string; ogImage: string };
@@ -89,8 +103,10 @@ export type AnfitrioesContent = {
   sala: {
     label: string; line1: string; line2: string; text: string; card: AnfitriaoContent["card"];
     profile: { avatar: string; label: string; name: string; note: string; seal: string };
-    articles: { state: string; title: string; text: string }[];
-    reach: { title: string; text: string }[];
+    /** What a reader sees on the public page: published articles only. */
+    publicLabel: string; publicArticles: { title: string; text: string }[];
+    /** A separate example of the host's private panel, where drafts and reviews live. */
+    panel: { label: string; note: string; items: { state: string; title: string }[] };
   };
   editor: EditorContent;
   etapas: { label: string; line1: string; line2: string; text: string; listLabel: string; steps: { numeral: string; title: string; text: string }[]; cta: Link };
