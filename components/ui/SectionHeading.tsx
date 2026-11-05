@@ -28,7 +28,7 @@ export function SectionLabel({ children, tone = "light" }: { children: ReactNode
   return (
     <p className={cn("flex items-center gap-3.5", dark ? "text-gold" : "text-brown")}>
       <span aria-hidden="true" className="h-px w-10 bg-current opacity-80" />
-      <span className={cn("text-xs font-semibold uppercase tracking-[0.14em]", dark ? "text-gold-light/90" : "text-brown/90")}>{children}</span>
+      <span className={cn("type-eyebrow", dark ? "text-gold-light/90" : "text-brown/90")}>{children}</span>
     </p>
   );
 }
@@ -39,7 +39,7 @@ export function TwoLineTitle({ id, line1, line2, tone = "light", centered, class
 }) {
   const dark = tone === "dark";
   return (
-    <h2 id={id} className={cn("title-serif text-balance text-[44px] sm:text-[56px] lg:text-[64px]", centered && "text-center", className)}>
+    <h2 id={id} className={cn("type-title", centered && "text-center", className)}>
       <span className={cn("block", dark ? "text-ivory" : "text-graphite")}>{line1}</span>{" "}
       <span className={cn("block italic", dark ? "text-gold" : "text-ink")}>{line2}</span>
     </h2>

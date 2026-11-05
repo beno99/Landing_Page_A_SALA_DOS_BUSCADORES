@@ -31,12 +31,3 @@ export function useDrawOnce<T>(key: string, pool: readonly T[], n: number): T[] 
     () => once(`server-list:${key}`, () => pool.slice(0, n)),
   );
 }
-
-/** One index in [0, length), drawn once per visit (0 on the server and during hydration). */
-export function useDrawIndexOnce(key: string, length: number): number {
-  return useSyncExternalStore(
-    noSubscribe,
-    () => once(`index:${key}`, () => Math.floor(Math.random() * length)),
-    () => 0,
-  );
-}

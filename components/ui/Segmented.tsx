@@ -1,12 +1,12 @@
 import { cn } from "@/lib/cn";
 
-/** One choice among a few, for the switches that change what a section shows (Leitura, Artigos).
+/** One choice among a few, for the switches that change what a section shows (Artigos).
  *  A `disabled` option stays visible (and is announced as unavailable) but cannot be chosen. */
-export function Segmented<T extends string>({ label, options, value, onChange, describedBy }: {
-  label: string; options: { id: T; label: string; disabled?: boolean }[]; value: T; onChange: (id: T) => void; describedBy?: string;
+export function Segmented<T extends string>({ label, options, value, onChange, describedBy, className }: {
+  label: string; options: { id: T; label: string; disabled?: boolean }[]; value: T; onChange: (id: T) => void; describedBy?: string; className?: string;
 }) {
   return (
-    <div role="group" aria-label={label} aria-describedby={describedBy} className="inline-flex w-fit max-w-full gap-0.5 rounded-full bg-ivory p-1 text-sm shadow-[0_2px_4px_rgb(0_0_0/0.06),0_24px_40px_-14px_rgb(57_0_7/0.32)]">
+    <div role="group" aria-label={label} aria-describedby={describedBy} className={cn("inline-flex w-fit max-w-full gap-0.5 rounded-full bg-ivory p-1 text-sm shadow-[0_2px_4px_rgb(0_0_0/0.06),0_24px_40px_-14px_rgb(57_0_7/0.32)]", className)}>
       {options.map((o) => (
         <button
           key={o.id}

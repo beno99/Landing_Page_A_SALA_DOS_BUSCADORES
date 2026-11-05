@@ -74,7 +74,7 @@ export function EditorDemo({ content }: { content: EditorContent }) {
           <div className="flex flex-col p-6 sm:px-10 sm:py-8">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brown">{draft.eyebrow}</p>
             <h3 className="title-serif mt-3.5 text-[30px] leading-[1.15] text-graphite sm:text-4xl">{draft.title}</h3>
-            <p className="mt-4 text-lg font-light leading-relaxed text-text-2">
+            <p className="mt-4 type-lead text-text-2">
               {draft.before}<Mark on={active === "obra"} className="font-display italic text-graphite">{draft.work}</Mark>{draft.middle}<Mark on={active === "termo"} className={active === "termo" ? "text-graphite" : ""}>{draft.term}</Mark>{draft.after} <span className="font-semibold text-ink">[1]</span>. {draft.note}
             </p>
             <div className={cn("mt-4 flex items-center gap-4 rounded-xl border bg-cream px-4 py-3.5 transition-colors duration-500", active === "citar" ? "border-ink/40" : "border-ink/10")}>

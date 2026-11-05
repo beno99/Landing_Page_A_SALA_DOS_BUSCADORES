@@ -23,20 +23,69 @@
   --color-text-3: #6b665e;
   --color-level: #f5e5cf;
   --color-level-ink: #72512d;
-  --font-display: var(--font-gambetta), Georgia, serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-display--font-variation-settings: "SOFT" 0, "WONK" 1;
   --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-greek: var(--font-eb-garamond), Georgia, serif;
   --ease-cinema: cubic-bezier(0.22, 1, 0.36, 1);
   /* strong ease-out for UI feedback (hover/press) */
   --ease-ui: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+:root {
+  /* Mineral pigments for the animated knowledge gems (base, light, depth). */
+  --color-gem-fluorita-base: #559a83;
+  --color-gem-fluorita-light: #aa8bc7;
+  --color-gem-fluorita-deep: #463657;
+  --color-gem-esmeralda-base: #079f70;
+  --color-gem-esmeralda-light: #a7edbd;
+  --color-gem-esmeralda-deep: #064d3e;
+  --color-gem-quartzo-rosa-base: #cf9a99;
+  --color-gem-quartzo-rosa-light: #f2d7d1;
+  --color-gem-quartzo-rosa-deep: #a06569;
+  --color-gem-pedra-da-lua-base: #c7d5e1;
+  --color-gem-pedra-da-lua-light: #eef4fa;
+  --color-gem-pedra-da-lua-deep: #5c7fa6;
+  --color-gem-espinelio-base: #b91f38;
+  --color-gem-espinelio-light: #f2939a;
+  --color-gem-espinelio-deep: #580d20;
+}
+
 /* Every section title and card title. The Hero uses the same family. */
 @utility title-serif {
   font-family: var(--font-display);
+  font-variation-settings: "SOFT" 0, "WONK" 1;
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1;
+}
+
+/* ─── Section typography: one scale for every section heading ─────────────────
+   type-eyebrow = the small caps label above the title, type-title = the section title (Fraunces),
+   type-lead = the supporting paragraph under it. Sections only add colors and layout. */
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+@utility type-title {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  @media (width >= 40rem) { font-size: 56px; }
+  @media (width >= 64rem) { font-size: 64px; }
+}
+@utility type-lead {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.625;
 }
 
 /* Glass panel of the portal's cards */

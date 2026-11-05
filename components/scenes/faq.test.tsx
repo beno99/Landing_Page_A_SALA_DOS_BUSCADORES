@@ -1,8 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { site } from "@/content/site";
 import { Faq } from "./Faq";
+
+// jsdom never scrolls, so the in-view cascade would leave cards at opacity 0: test the content with motion reduced.
+vi.mock("@/lib/useMediaQuery", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/useMediaQuery")>()),
+  usePrefersReducedMotion: () => true,
+}));
 
 describe("Faq", () => {
   it("title, the six questions as buttons, all collapsed at first", () => {

@@ -1,11 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { anfitrioes } from "@/content/anfitrioes";
 import { site } from "@/content/site";
 import { Anfitriao } from "./Anfitriao";
 import { Etapas, HeroAnfitrioes, Politica, PorQue, SuaSala } from "./AnfitrioesSections";
 import { EditorDemo } from "./EditorDemo";
+
+vi.mock("next/font/google", () => ({
+  Fraunces: () => ({ variable: "font-anfitriao" }),
+  Inter: () => ({ className: "font-inter" }),
+}));
+beforeEach(() => localStorage.clear());
 
 describe("Página de anfitriões", () => {
   it("the hero is a plain first screen: title, both actions and no sky video", () => {
@@ -78,20 +84,36 @@ describe("EditorDemo", () => {
 });
 
 describe("Seção de anfitriões da página principal", () => {
-  it("invitation, three steps, three demonstration cards (no links) with seal and author, and both actions", () => {
+  it("presents the invitation, three steps and the real Corpus Hermeticum room", () => {
     render(<Anfitriao content={site.anfitriao} />);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Seu conhecimento pode abrir novos caminhos de descoberta.");
-    for (const s of site.anfitriao.steps) expect(screen.getByRole("heading", { level: 3, name: new RegExp(s.title) })).toBeInTheDocument();
-    const cards = document.querySelectorAll("#anfitriao article");
-    expect(cards).toHaveLength(3);
-    for (const card of cards) {
-      expect(card).toHaveTextContent(site.anfitriao.seal);
-      expect(card).toHaveTextContent("Por Nome do anfitrião");
-      expect(card).toHaveTextContent(site.anfitriao.exampleNote);
-      expect(card.querySelector("a")).toBeNull();
-    }
+    for (const step of site.anfitriao.steps) expect(screen.getByRole("heading", { level: 3, name: step.title })).toBeInTheDocument();
+    expect(screen.getAllByRole("article")).toHaveLength(1);
+    expect(screen.getByRole("heading", { name: "Corpus Hermeticum" })).toBeInTheDocument();
+    expect(screen.getByText("Sala da curadoria")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Entrar na Sala" })).toHaveAttribute("href", "https://asaladosbuscadores.com.br/salas/corpus-hermeticum");
     expect(screen.getByRole("link", { name: site.anfitriao.primary.label })).toHaveAttribute("href", expect.stringMatching(/^mailto:/));
-    expect(screen.getByRole("link", { name: site.anfitriao.secondary.label })).toHaveAttribute("href", "/anfitrioes#politica");
-    expect(screen.getByText(site.anfitriao.contact.email)).toBeInTheDocument();
+  });
+
+  it("saves the room locally, restores it on remount and removes it", async () => {
+    const user = userEvent.setup();
+    const view = render(<Anfitriao content={site.anfitriao} />);
+    await user.click(screen.getByRole("button", { name: /Salvar Corpus Hermeticum/ }));
+    expect(screen.getByRole("status")).toHaveTextContent("Corpus Hermeticum salva neste navegador.");
+    view.unmount();
+    render(<Anfitriao content={site.anfitriao} />);
+    expect(screen.getByRole("button", { name: /Remover Corpus Hermeticum/ })).toHaveAttribute("aria-pressed", "true");
+    await user.click(screen.getByRole("button", { name: /Remover Corpus Hermeticum/ }));
+    expect(screen.getByRole("button", { name: /Salvar Corpus Hermeticum/ })).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("reports storage errors without claiming the room was saved", async () => {
+    render(<Anfitriao content={site.anfitriao} />);
+    const storage = vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("Unavailable"); });
+    try {
+      await userEvent.click(screen.getByRole("button", { name: /Salvar Corpus Hermeticum/ }));
+      expect(screen.getByRole("status")).toHaveTextContent("Não foi possível salvar");
+      expect(screen.getByRole("button", { name: /Salvar Corpus Hermeticum/ })).toHaveAttribute("aria-pressed", "false");
+    } finally { storage.mockRestore(); }
   });
 });

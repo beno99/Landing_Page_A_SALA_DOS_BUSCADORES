@@ -1,0 +1,50 @@
+.orb {
+  position: relative;
+  width: 127.617px;
+  height: 127.617px;
+  pointer-events: none;
+}
+
+.fallback { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+/* The shader's sphere occupies 75% of its canvas; keep the existing visual diameter. */
+.canvas {
+  position: absolute;
+  inset: -16.666667%;
+  width: 133.333333%;
+  height: 133.333333%;
+  visibility: hidden;
+}
+
+.orb[data-rendered="true"] .canvas { visibility: visible; }
+.orb[data-rendered="true"] .fallback { visibility: hidden; }
+
+/* A stationary, soft shadow separates the lifted gem from the card's surface.
+   Its gradient is static; only opacity is animated, avoiding per-frame blur. */
+.orb::before {
+  content: "";
+  position: absolute;
+  inset-inline: -8%;
+  bottom: -20px;
+  height: 40px;
+  background: radial-gradient(ellipse closest-side,
+    color-mix(in srgb, var(--color-night) 75%, transparent),
+    color-mix(in srgb, var(--color-night) 30%, transparent) 55%,
+    transparent);
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orb::before { transition: opacity 220ms var(--ease-ui); }
+  :global([data-gem-item]:hover) .orb::before { opacity: 1; }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .fallback,
+  .canvas { transition: transform 240ms var(--ease-ui); }
+
+  :global([data-gem-item]:hover) .fallback,
+  :global([data-gem-item]:hover) .canvas {
+    transform: translateY(-10px) scale(1.08);
+  }
+}

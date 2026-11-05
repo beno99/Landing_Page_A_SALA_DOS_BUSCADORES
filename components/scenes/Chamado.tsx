@@ -13,7 +13,7 @@ export function Chamado({ content }: { content: ChamadoContent }) {
         <Reveal className="flex flex-col items-start gap-7">
           {content.label && <SectionLabel>{content.label}</SectionLabel>}
           <TwoLineTitle id="chamado-title" line1={content.line1} line2={content.line2} />
-          <p className="max-w-[600px] text-lg font-light leading-relaxed text-text-2">{content.text}</p>
+          <p className="max-w-[600px] type-lead text-text-2">{content.text}</p>
           <Pill href={content.cta.href} external={content.cta.external} variant="dark" arrow>{content.cta.label}</Pill>
           {content.support && <p className="text-sm text-text-3">{content.support}</p>}
         </Reveal>

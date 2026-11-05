@@ -1,7 +1,11 @@
 "use client";
 import { useId, useState } from "react";
 import type { FaqContent, FaqItem } from "@/content/types";
-import { SectionLabel } from "@/components/ui/SectionHeading";
+import { motion } from "motion/react";
+import { Reveal, SectionLabel } from "@/components/ui/SectionHeading";
+import { usePrefersReducedMotion } from "@/lib/useMediaQuery";
+
+const EASE_CINEMA = [0.22, 1, 0.36, 1] as const;
 
 // FAQ in ivory (telas-substitutas/faq/01–02). Collapsible: every answer starts closed, the whole question
 // is the button (aria-expanded + aria-controls) and shows + / −. Two independent columns on desktop
@@ -13,38 +17,47 @@ export function Faq({ content }: { content: FaqContent }) {
   return (
     <section id="faq" aria-labelledby="faq-title" className="section-y bg-[#f2e9d8]">
       <div className="container-page flex flex-col gap-12">
-        <div className="flex flex-col gap-4">
+        <Reveal className="flex flex-col gap-4">
           <SectionLabel>{content.label}</SectionLabel>
-          <h2 id="faq-title" className="title-serif text-balance text-[38px] text-graphite sm:text-[48px] lg:text-[56px]">{content.title}</h2>
-          <p className="text-lg font-light text-text-2">{content.subtitle}</p>
-        </div>
+          <h2 id="faq-title" className="type-title text-graphite">{content.title}</h2>
+          <p className="type-lead text-text-2">{content.subtitle}</p>
+        </Reveal>
 
         <div className="grid items-start gap-4 md:grid-cols-2 md:gap-6">
           {columns.map((col, c) => (
             <ul key={c} className="flex flex-col gap-4 md:gap-6">
               {col.map((item, i) => (
-                <FaqCard key={item.question} item={item} number={c * half + i + 1} />
+                <FaqCard key={item.question} item={item} number={c * half + i + 1} row={i} column={c} />
               ))}
             </ul>
           ))}
         </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brown">{content.contactLabel}</p>
+        <Reveal className="flex flex-col gap-2">
+          <p className="type-eyebrow text-brown">{content.contactLabel}</p>
           <a href={content.contact.href} className="link-underline w-fit max-w-full break-words title-serif text-[22px] text-graphite [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink">
             {content.contact.label}
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-function FaqCard({ item, number }: { item: FaqItem; number: number }) {
+// Cascade: each card rises in as it reaches the viewport. Within a screenful the delay steps down the
+// rows and nudges the right column a beat later, so cards that appear together still arrive one by one.
+function FaqCard({ item, number, row, column }: { item: FaqItem; number: number; row: number; column: number }) {
   const [open, setOpen] = useState(false);
   const id = useId();
+  const reduced = usePrefersReducedMotion();
+  const delay = Math.min(row * 0.1 + column * 0.06, 0.4);
   return (
-    <li className="rounded-2xl bg-ivory ring-1 ring-inset ring-brown/15">
+    <motion.li
+      initial={reduced ? false : { opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : delay, ease: EASE_CINEMA }}
+      className="rounded-2xl bg-ivory ring-1 ring-inset ring-brown/15">
       <h3>
         <button
           type="button"
@@ -64,6 +77,6 @@ function FaqCard({ item, number }: { item: FaqItem; number: number }) {
       <div id={`${id}-answer`} role="region" aria-label={item.question} hidden={!open} className="px-5 pb-6 pl-[68px] sm:px-6 sm:pl-[72px]">
         <p className="text-base font-light leading-[1.6] text-text-2">{item.answer}</p>
       </div>
-    </li>
+    </motion.li>
   );
 }

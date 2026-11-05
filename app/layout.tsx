@@ -1,29 +1,23 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { EB_Garamond, Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
-const gambetta = localFont({
-  src: [
-    { path: "./fonts/Gambetta-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/Gambetta-Italic.woff2", weight: "400", style: "italic" },
-    { path: "./fonts/Gambetta-Medium.woff2", weight: "500", style: "normal" },
-  ],
-  variable: "--font-gambetta",
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-inter",
   display: "swap",
 });
-
-// Only for the classical Greek in Leitura, which Gambetta does not cover. Not in the first screen, so no preload.
-const ebGaramond = EB_Garamond({ subsets: ["greek-ext"], style: ["normal", "italic"], variable: "--font-eb-garamond", display: "swap", preload: false });
 
 // Open Graph URLs need the real origin: NEXT_PUBLIC_SITE_URL, else Vercel's production domain.
 // Left undefined otherwise (Next then falls back to localhost in dev only).
@@ -43,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${gambetta.variable} ${inter.variable} ${ebGaramond.variable}`}>
+    <html lang="pt-BR" className={`${fraunces.variable} ${inter.variable}`}>
       <body><SmoothScroll>{children}</SmoothScroll></body>
     </html>
   );

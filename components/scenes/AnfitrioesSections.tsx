@@ -29,12 +29,12 @@ export function HeroAnfitrioes({ content }: { content: AnfitrioesContent["hero"]
         transition={{ duration: reduced ? 0 : 1, ease: [0.22, 1, 0.36, 1] }}
         className="container-page flex flex-col items-center gap-7 py-28 text-center"
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-light/90">{content.label}</p>
+        <p className="type-eyebrow text-gold-light/90">{content.label}</p>
         <h1 id="hero-title" className="title-serif text-balance text-[clamp(40px,6.2vw,92px)] leading-[0.98]">
           <span className="block text-ivory">{content.title[0]}</span>{" "}
           <span className="block italic text-gold">{content.title[1]}</span>
         </h1>
-        <p className="max-w-[720px] text-lg font-light leading-relaxed text-white/85">{content.description}</p>
+        <p className="max-w-[720px] type-lead text-white/85">{content.description}</p>
         <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
           <Pill href={content.cta.href} arrow>{content.cta.label}</Pill>
           <Pill href={content.secondary.href} variant="glass">{content.secondary.label}</Pill>
@@ -52,7 +52,7 @@ export function PorQue({ content }: { content: AnfitrioesContent["porQue"] }) {
         <Reveal>
           <TwoLineTitle id="por-que-title" line1={content.line1} line2={content.line2} />
         </Reveal>
-        <p className="max-w-[576px] text-lg font-light leading-relaxed text-text-2">{content.text}</p>
+        <p className="max-w-[576px] type-lead text-text-2">{content.text}</p>
         <ul className="max-w-[576px]">
           {content.reasons.map((r, i) => (
             <li key={r.title} className="flex gap-6 border-t border-ink/15 py-[18px]">
@@ -88,7 +88,7 @@ export function SuaSala({ content }: { content: AnfitrioesContent["sala"] }) {
               <TwoLineTitle id="sala-title" line1={content.line1} line2={content.line2} tone="dark" />
             </Reveal>
           </div>
-          <p className="max-w-[420px] text-lg font-light leading-relaxed text-white/75">{content.text}</p>
+          <p className="max-w-[420px] type-lead text-white/75">{content.text}</p>
         </div>
 
         <div className="grid items-start gap-6 lg:grid-cols-[384px_1fr]">
@@ -145,7 +145,7 @@ export function SecaoEditor({ content }: { content: AnfitrioesContent["editor"] 
           <Reveal>
             <TwoLineTitle id="editor-title" line1={content.line1} line2={content.line2} centered />
           </Reveal>
-          <p className="max-w-[620px] text-lg font-light leading-relaxed text-text-2">{content.text}</p>
+          <p className="max-w-[620px] type-lead text-text-2">{content.text}</p>
         </div>
         <EditorDemo content={content} />
       </div>
@@ -167,7 +167,7 @@ export function Etapas({ content }: { content: AnfitrioesContent["etapas"] }) {
             </Reveal>
           </div>
           <div className="flex max-w-[380px] flex-col items-start gap-5">
-            <p className="text-lg font-light leading-relaxed text-white/75">{content.text}</p>
+            <p className="type-lead text-white/75">{content.text}</p>
             <Pill href={content.cta.href} arrow>{content.cta.label}</Pill>
           </div>
         </div>
@@ -202,7 +202,7 @@ export function Politica({ content }: { content: AnfitrioesContent["politica"] }
         <Reveal>
           <TwoLineTitle id="politica-title" line1={content.line1} line2={content.line2} centered />
         </Reveal>
-        <p className="max-w-[600px] text-center text-lg font-light leading-relaxed text-text-2">{content.text}</p>
+        <p className="max-w-[600px] text-center type-lead text-text-2">{content.text}</p>
         <ul className="mt-2 grid w-full gap-4 md:grid-cols-2">
           {content.rules.map((r, i) => (
             <li key={r.title} className="flex gap-6 rounded-3xl bg-ivory p-8 ring-1 ring-inset ring-ink/10">

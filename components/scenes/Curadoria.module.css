@@ -1,0 +1,17 @@
+/* Keep the entire section above the preceding sticky cosmos, including the editorial copy. */
+.section { position: relative; isolation: isolate; background: var(--background); color: var(--label); font-weight: 400; }
+.layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); min-height: clamp(640px, 100svh, 840px); }
+.introduction { display: flex; flex-direction: column; gap: 32px; padding: 40px 40px 40px 0; }
+
+.copy { display: flex; flex: 1; flex-direction: column; justify-content: center; gap: 24px; padding-block: 32px; }
+
+.description { max-width: 40ch; color: var(--label-secondary); }
+
+@media (max-width: 1023px) {
+  .section { padding-block: 56px; }
+  .layout { display: flex; min-height: 0; flex-direction: column; gap: 40px; }
+  .introduction { max-width: 680px; gap: 32px; padding: 0; }
+  .copy { flex: none; padding-block: 0; }
+  .title { max-width: 580px; }
+  .description { max-width: 62ch; }
+}

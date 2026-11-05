@@ -16,7 +16,7 @@ async function visibility(locator: Locator) {
   });
 }
 
-const IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "artigos", "leitura", "jornada", "anfitriao", "faq", "chamado"];
+const IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "artigos", "jornada", "anfitriao", "faq"];
 
 test("the whole page renders with no console errors", async ({ page }) => {
   const errors: string[] = [];
@@ -61,7 +61,8 @@ test("no horizontal scroll", async ({ page }) => {
 test("reduced motion: scenes are not pinned", async ({ page }, info) => {
   test.skip(info.project.name !== "reduced");
   await page.goto("/");
-  for (const id of ["inicio", "salas", "perguntas", "trilhas"]) {
+  // Temas now uses normal document flow and has no scroll animation to disable.
+  for (const id of ["inicio", "salas", "trilhas"]) {
     await expect(page.locator(`#${id}`)).toHaveAttribute("data-reduced", "true");
   }
   await expect(page.getByTestId("hero-arch")).not.toHaveAttribute("style", /scale/);
@@ -74,6 +75,19 @@ test("nav anchors land pinned scenes on their revealed frame", async ({ page }, 
   await expect(page).toHaveURL(/#curadoria$/);
   const title = page.locator("#curadoria h2");
   await expect.poll(() => visibility(title), { timeout: 10_000 }).toEqual({ opacity: 1, clipped: false, inViewport: true });
+  await expect(page.locator("#curadoria")).toHaveCSS("background-color", "rgb(46, 43, 40)");
+  // Visibility/opacity alone cannot detect the previous sticky cosmos painting over this text.
+  await expect.poll(() => title.evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    const topmost = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    return topmost === el || el.contains(topmost);
+  })).toBe(true);
+  await expect.poll(() => page.locator("#curadoria").evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    // Sample the solid outer gutter, away from the interactive image panels and navigation.
+    const topmost = document.elementFromPoint(rect.left + 8, Math.min(rect.bottom - 8, innerHeight / 2));
+    return topmost === el;
+  })).toBe(true);
 });
 
 test("the Hero CTA leaves the tab order once it has faded", async ({ page }, info) => {

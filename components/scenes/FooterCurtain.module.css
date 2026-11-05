@@ -1,0 +1,60 @@
+.footer {
+  padding: 64px 0 32px;
+  background: #101413;
+  color: #f6e7ce;
+  font-weight: 400;
+}
+
+.top { display: grid; grid-template-columns: minmax(0, 1.65fr) repeat(3, minmax(0, 1fr)); gap: 48px; padding-bottom: 64px; }
+.brand { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; gap: 26px; }
+.brandLink { display: flex; align-items: center; gap: 20px; }
+.mark { width: 80px; height: auto; flex-shrink: 0; }
+.name { max-width: 220px; font-family: var(--font-display); font-variation-settings: "SOFT" 0, "WONK" 1; font-size: 34px; line-height: 1.1; }
+.description { max-width: 370px; color: #a9a393; font-size: 20px; line-height: 1.65; }
+.motto { color: #edcc78; font-size: 20px; line-height: 1.5; }
+.column { min-width: 0; padding-top: 24px; }
+.heading { color: #edcc78; font-size: 16px; font-weight: 500; line-height: 24px; text-transform: uppercase; }
+.links { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; margin-top: 28px; list-style: none; }
+.link { display: inline-block; color: #f6e7ce; font-size: 20px; line-height: 1.35; text-decoration: none; }
+.link:hover { color: #edcc78; }
+.footer a:focus-visible, .backToTop:focus-visible { outline: 2px solid #edcc78; outline-offset: 6px; border-radius: 2px; }
+.social { border-block: 1px solid #393a32; padding: 42px 0 44px; }
+.socialList { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 26px; list-style: none; }
+.socialItem { display: grid; width: 40px; height: 44px; place-items: center; color: #f6e7ce; }
+.socialItem svg { display: block; width: 32px; height: 32px; }
+a.socialItem:hover { color: #edcc78; }
+.bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 34px; }
+.copyright { color: #a9a393; font-size: 17px; line-height: 26px; }
+.backToTop { display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; border: 0; background: transparent; color: #f6e7ce; font-size: 20px; line-height: 28px; cursor: pointer; }
+.backToTop:hover { color: #edcc78; }
+
+@media (max-width: 1100px) {
+  .top { gap: 32px; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); }
+  .name { font-size: 28px; }
+  .mark { width: 64px; }
+  .brandLink { gap: 16px; }
+  .description, .motto, .link { font-size: 16px; }
+  .heading { font-size: 13px; }
+}
+
+@media (max-width: 767px) {
+  .footer { padding-top: 48px; }
+  .top { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; padding-bottom: 40px; }
+  .brand { grid-column: 1 / -1; gap: 20px; }
+  .name { max-width: 210px; font-size: 30px; }
+  .description { max-width: 420px; }
+  .column { padding-top: 0; }
+  .links { gap: 8px; margin-top: 16px; }
+  .link { padding-block: 8px; }
+  .social { padding-block: 30px; }
+  .socialList { gap: 18px; margin-top: 18px; }
+  .copyright { font-size: 14px; }
+  .backToTop { min-height: 44px; font-size: 16px; }
+  .bottom { padding-top: 24px; }
+}
+
+@media (max-width: 479px) {
+  .top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .socialList { gap: 12px; }
+}

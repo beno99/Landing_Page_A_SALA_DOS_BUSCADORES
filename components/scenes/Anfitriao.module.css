@@ -1,0 +1,73 @@
+.section {
+  position: relative;
+  isolation: isolate;
+  padding: 55px 0 62.8px;
+  background: #2b0e12;
+  color: var(--color-cream);
+  font-weight: 400;
+}
+
+.texture {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.texture img { object-fit: cover; }
+.section .content { max-width: 1077px; }
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 607px) minmax(0, 401px);
+  align-items: center;
+  gap: 60px;
+  max-width: 1068px;
+  margin-inline: auto;
+}
+
+.introduction {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.label { color: var(--color-gold); }
+.description { max-width: 561px; color: #b8aa97; }
+.section .apply { padding: 16px 24px; border-radius: 8px; background: var(--color-cream); color: #3b0a0a; font-size: 14px; font-weight: 500; line-height: 20px; }
+
+.steps {
+  display: grid;
+  grid-template-columns: 337fr 314fr 366fr;
+  gap: 30px;
+  margin-top: 35px;
+  list-style: none;
+}
+
+.step { min-width: 0; border: 0.6px solid #4c4c4c; padding: 10px; }
+.stepHeading { display: flex; align-items: center; gap: 6px; }
+.stepHeading img { flex-shrink: 0; }
+.stepHeading h3 { font-size: 16px; font-weight: 400; line-height: 26px; }
+.step p { margin-top: 8px; color: #b8aa97; font-size: 13px; line-height: 20px; }
+.notice { position: fixed; z-index: 60; bottom: 24px; left: 50%; width: max-content; max-width: calc(100% - 32px); transform: translateX(-50%); padding: 12px 20px; border: 1px solid rgb(246 231 206 / 30%); border-radius: 12px; background: #111313; color: var(--color-cream); font-size: 14px; line-height: 22px; pointer-events: none; }
+
+@media (max-width: 1100px) {
+  .main { gap: 32px; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); }
+  .steps { gap: 16px; }
+}
+
+@media (max-width: 900px) {
+  .main { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .introduction { max-width: 607px; }
+  .steps { grid-template-columns: minmax(0, 1fr); margin-top: 40px; }
+  .step { padding: 14px; }
+}
+
+@media (max-width: 479px) {
+  .section { padding-block: 56px; }
+  .introduction { gap: 28px; }
+}

@@ -1,0 +1,61 @@
+.roomCard {
+  width: 100%;
+  max-width: 401px;
+  padding: 8px 6px 8px 8px;
+  border-radius: 24px;
+  background: linear-gradient(123.756deg, #b47a00 14.639%, #ffca28 46.464%, #ffe080 57.072%, #b47a00 85.361%);
+  box-shadow: 0 8px 16px -6px rgb(57 0 7 / 14%);
+  justify-self: center;
+}
+
+.roomVisual {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 584px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.roomImage { z-index: -1; object-fit: cover; }
+/* Same side insets as .roomPanel, so the count lines up with its left edge and the save button with its right edge. */
+.roomTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 8px 12px 0 8px; }
+.count { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 8px; border-radius: 12px; background: rgb(17 19 19 / 82%); color: #fff; font-size: 12px; line-height: 18px; }
+.save { display: grid; width: 48px; height: 48px; flex-shrink: 0; place-items: center; border: 1px solid transparent; border-radius: 12px; background: rgb(17 19 19 / 82%); }
+.save[aria-pressed="true"] { border-color: #ffe080; background: #725624; }
+.save:focus-visible, .enter:focus-visible { outline: 2px solid #ffe080; outline-offset: 3px; }
+
+.roomPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 0 12px 8px 8px;
+  padding: 24px;
+  border: 1px solid rgb(246 231 206 / 26%);
+  border-radius: 16px;
+  background: rgb(17 19 19 / 70%);
+  backdrop-filter: blur(8px);
+}
+
+.origin { display: inline-flex; align-items: center; justify-content: center; width: 154px; min-height: 32px; padding: 7px 8px; border-radius: 12px; background: rgb(218 188 134 / 18%); color: #ffe080; font-size: 12px; line-height: 18px; }
+.roomPanel h3 { font-family: var(--font-display); font-variation-settings: "SOFT" 0, "WONK" 1; color: #fff; font-size: 32px; font-weight: 400; line-height: 35.2px; }
+.roomDescription { max-width: 240px; color: rgb(255 255 255 / 94%); font-size: 14px; line-height: 22.4px; }
+.roomMeta { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.level { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 112px; min-height: 32px; padding: 7px 8px; border-radius: 12px; background: var(--color-cream); color: #665039; font-size: 12px; line-height: 18px; }
+.roomMeta p { color: rgb(255 255 255 / 85%); font-size: 12px; line-height: 18px; }
+.enter { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; width: 184px; max-width: 100%; padding: 12px; border-radius: 12px; background: #d4d5d5; color: #111313; font-size: 15px; font-weight: 600; line-height: 21px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .save:hover { background: #725624; }
+  .enter:hover { background: var(--color-cream); }
+}
+
+@media (max-width: 479px) {
+  .roomPanel { margin-right: 8px; padding: 20px; }
+  .roomTop { padding-right: 8px; }
+  .roomPanel h3 { font-size: 30px; line-height: 1.1; }
+}

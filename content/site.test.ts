@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { site } from "./site";
 
-const SECTION_IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "artigos", "leitura", "jornada", "anfitriao", "faq", "chamado"];
+const SECTION_IDS = ["inicio", "salas", "curadoria", "perguntas", "trilhas", "artigos", "jornada", "anfitriao", "faq"];
 
 describe("site content", () => {
   it("has the quantities the scenes expect", () => {
@@ -44,12 +44,15 @@ describe("site content", () => {
     expect(hrefs).not.toContain('"href":"#"');
   });
 
-  it("articles and videos: distinct ids and titles, every format present, no Verbetes", () => {
-    const { items, filters } = site.artigos;
-    expect(new Set(items.map((a) => a.id)).size).toBe(items.length);
-    expect(new Set(items.map((a) => a.title)).size).toBe(items.length);
-    expect(filters.map((f) => f.label)).toEqual(["Todos", "Artigos", "Vídeos", "Shorts"]);
-    for (const kind of ["artigo", "video", "short"] as const) expect(items.some((i) => i.kind === kind)).toBe(true);
+  it("acervo has unique rooms and the three designed filter states", () => {
+    const { salas, filters, articles, videos } = site.artigos;
+    expect(new Set(salas.map((s) => s.id)).size).toBe(salas.length);
+    expect(filters.map((f) => f.label)).toEqual(["Todos", "Artigos", "Vídeos"]);
+    expect(articles.length).toBeGreaterThan(0);
+    expect(new Set(articles.map((a) => a.href)).size).toBe(articles.length);
+    for (const a of articles) expect(a.href).toMatch(/^https:\/\/asaladosbuscadores.com.br\/salas\//);
+    expect(videos.length).toBe(3);
+    for (const v of videos) expect(v.href).toMatch(/^https:\/\/www.youtube.com\/watch\?v=/);
     expect(JSON.stringify(site)).not.toContain("Verbete");
   });
 

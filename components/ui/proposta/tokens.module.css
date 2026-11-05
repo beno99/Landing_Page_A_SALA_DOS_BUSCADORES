@@ -1,0 +1,21 @@
+/* Scoped subset of Portal_Sala_Buscadores/design-system/tokens.css.
+   This LP does not load the Portal's global theme or runtime. */
+.theme {
+  /* Solid warm charcoal sampled from the supplied reference. */
+  --background: #2e2b28;
+  --label: #f6e7ce;
+  --label-secondary: #bec2bd;
+  --separator: rgb(246 231 206 / 20%);
+  --focus-ring: #f6e7ce;
+  --image-veil: rgb(17 19 19 / 76%);
+  --image-veil-bottom: rgb(17 19 19 / 92%);
+  --font-display-lower: var(--font-display);
+  --font-meta: var(--font-inter), sans-serif;
+  --duration-press: 90ms;
+  --duration-fast: 160ms;
+  --duration-base: 260ms;
+  --duration-spring: 460ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --spring-soft: linear(0, 0.063 3.3%, 0.25 7.5%, 0.525 13%, 0.742 18.4%, 0.879 23.9%, 0.957 29.6%, 0.998 35.6%, 1.014 41.5%, 1.017 47.8%, 1.012 55.5%, 1.004 66.4%, 1);
+}

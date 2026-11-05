@@ -1,0 +1,8 @@
+.item { min-width: 0; perspective: 900px; }
+.surface { height: 100%; transform-origin: center; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .item:hover .surface { will-change: transform; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .surface { transform: none !important; will-change: auto !important; }
+}

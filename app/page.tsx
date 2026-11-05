@@ -7,14 +7,17 @@ import { Curadoria } from "@/components/scenes/Curadoria";
 import { Perguntas } from "@/components/scenes/Perguntas";
 import { Trilhas } from "@/components/scenes/Trilhas";
 import { Artigos } from "@/components/scenes/Artigos";
-import { Leitura } from "@/components/scenes/Leitura";
 import { Jornada } from "@/components/scenes/Jornada";
 import { Anfitriao } from "@/components/scenes/Anfitriao";
 import { Faq } from "@/components/scenes/Faq";
-import { Chamado } from "@/components/scenes/Chamado";
 import { FooterCurtain } from "@/components/scenes/FooterCurtain";
+import { getLatestVideos } from "@/lib/youtube";
 
-export default function Home() {
+// The "Vídeos" carousel shows the channel's latest uploads; the page is regenerated at most once an hour.
+export const revalidate = 3600;
+
+export default async function Home() {
+  const videos = await getLatestVideos(site.artigos.videos);
   return (
     <>
       <Nav nav={site.nav} />
@@ -26,12 +29,10 @@ export default function Home() {
         <Curadoria content={site.curadoria} />
         <Perguntas content={site.perguntas} />
         <Trilhas content={site.trilhas} />
-        <Artigos content={site.artigos} />
-        <Leitura content={site.leitura} />
+        <Artigos content={{ ...site.artigos, videos }} />
         <Jornada content={site.jornada} />
         <Anfitriao content={site.anfitriao} />
         <Faq content={site.faq} />
-        <Chamado content={site.chamado} />
       </main>
       <FooterCurtain content={site.footer} />
     </>
