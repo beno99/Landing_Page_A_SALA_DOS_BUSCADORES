@@ -35,9 +35,8 @@ O workflow `.github/workflows/deploy.yml` roda a cada push na `main`, todo dia �
 
 Requisitos na VPS:
 
-- um runner self-hosted registrado neste repositório com as labels `self-hosted` e `vps-sala`;
+- um runner self-hosted registrado neste repositório com as labels `self-hosted` e `vps-sala` (serviço `actions-runner-landing`);
 - `rsync` instalado e o diretório `/var/www/asaladosbuscadores-landing` gravável pelo usuário do runner;
-- o vhost de `deploy/nginx-landing.conf` em `/etc/nginx/sites-available/`, ativado e com certificado HTTPS (por exemplo, `certbot --nginx -d www.asaladosbuscadores.com.br`);
-- DNS de `www` apontando para a VPS.
+- o bloco de `deploy/Caddyfile-landing.conf` dentro de `/etc/caddy/Caddyfile` (o Caddy emite o HTTPS sozinho), seguido de `systemctl reload caddy`.
 
 Secret opcional no GitHub: `YOUTUBE_API_KEY`.
