@@ -2,7 +2,7 @@ export type Link = { label: string; href: string; external?: boolean };
 export type HeroContent = { title: [string, string]; description: string; cta: Link };
 /** A cover in the showcase. `external`: opens on YouTube in a new tab (otherwise the Portal, same tab). */
 export type Sala = { id: string; name: string; image?: string; href: string; external?: boolean };
-/** `blocks`: the showcase sequence by Sala id, one array per wave (1–2–3–2–1); the opening cover closes the cycle. */
+/** `blocks`: the showcase sequence by Sala id, one array per wave (1–2–3–2), without repeated covers. */
 export type SalasContent = { title: string; subtitle: string; salas: Sala[]; blocks: string[][] };
 export type CuradoriaContent = {
   label: string; line1: string; line2: string; text: string;

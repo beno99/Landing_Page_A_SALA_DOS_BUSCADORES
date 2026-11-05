@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useMemo, useRef } from "react";
-import { motion, useTransform, type MotionValue } from "motion/react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import type { Sala, SalasContent } from "@/content/types";
 import { SceneTrack } from "@/components/motion/SceneTrack";
 import { DepthTunnel, type TunnelEntry } from "@/components/motion/DepthTunnel";
@@ -10,13 +10,15 @@ import { tunnelLayout, type TunnelLayout } from "@/lib/motion/math";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import { useNearViewport } from "@/lib/useNearViewport";
 
-export const SALAS_TRACK = { desktop: 560, mobile: 380 };
-// Title fully visible (after the Hero handoff has mostly dissolved): anchors land here.
-export const SALAS_REVEAL = 0.05;
+// The stage occupies 100svh; only the remaining height contributes to its scroll timeline.
+// Pinned travel is now 230/140svh, half the previous 460/280svh.
+export const SALAS_TRACK = { desktop: 330, mobile: 240 };
+// The title is already visible when the door hands over to this scene.
+export const SALAS_REVEAL = 0;
 
 type Slot = Omit<TunnelEntry, "key" | "wave" | "node">;
 
-// Desktop composition per block size (1–2–3–2–1): each cover on its own plane (dz: further back),
+// Desktop composition per block size (1–2–3–2): each cover on its own plane (dz: further back),
 // at its own size, height and side, drifting along its own path as it comes closer. The front cover
 // of a block is the largest and lowest; the back ones are smaller, higher and drift outwards.
 const DESKTOP: Record<number, Slot[]> = {
@@ -63,10 +65,16 @@ function focusProgress(layout: TunnelLayout, wave: number, dz = 0): number {
 }
 
 export function Salas({ content }: { content: SalasContent }) {
+  const entryRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: arrival } = useScroll({ target: entryRef, offset: ["start end", "start start"] });
   return (
-    <SceneTrack id="salas" labelledBy="salas-title" heights={SALAS_TRACK} revealProgress={SALAS_REVEAL}>
-      {(progress, reduced) => (reduced ? <SalasGrid content={content} /> : <SalasTunnel content={content} progress={progress} />)}
-    </SceneTrack>
+    // Share the outgoing viewport with the door, removing the empty screen between the scenes.
+    // Without motion, both sections retain normal document flow.
+    <div ref={entryRef} className="-mt-[100svh] motion-reduce:mt-0">
+      <SceneTrack id="salas" labelledBy="salas-title" heights={SALAS_TRACK} revealProgress={SALAS_REVEAL}>
+        {(progress, reduced) => (reduced ? <SalasGrid content={content} /> : <SalasTunnel content={content} progress={progress} arrival={arrival} />)}
+      </SceneTrack>
+    </div>
   );
 }
 
@@ -79,7 +87,7 @@ function SalasTitle({ content }: { content: SalasContent }) {
   );
 }
 
-function SalasTunnel({ content, progress }: { content: SalasContent; progress: MotionValue<number> }) {
+function SalasTunnel({ content, progress, arrival }: { content: SalasContent; progress: MotionValue<number>; arrival: MotionValue<number> }) {
   const isMobile = useMediaQuery("(max-width: 767px)");
   const byId = useMemo(() => new Map(content.salas.map((s) => [s.id, s])), [content.salas]);
   const layout = useMemo(
@@ -88,7 +96,10 @@ function SalasTunnel({ content, progress }: { content: SalasContent; progress: M
     () => tunnelLayout(content.blocks.length, isMobile ? { spacing: 1100, start: 5000, exit: 900 } : { spacing: 2600, start: 6000, exit: 1300 }),
     [content.blocks.length, isMobile],
   );
-  const titleOpacity = useTransform(progress, [0, 0.04, 0.07, 0.11, 0.97, 1], [0, 1, 1, 0, 0, 1]);
+  const titleOpacity = useTransform(progress, [0, 0.07, 0.11, 0.97, 1], [1, 1, 0, 0, 1]);
+  // Reveal during the door's final dissolve; keep it hidden earlier, especially on short mobile tracks.
+  const entryOpacity = useTransform(arrival, [0, 0.8, 1], [0, 0, 1]);
+  const entryPointerEvents = useTransform(entryOpacity, (opacity) => opacity > 0.05 ? "auto" : "none");
 
   // Cover images stay off the critical path until the tunnel is about to be scrolled into view.
   const rootRef = useRef<HTMLDivElement>(null);
@@ -114,12 +125,12 @@ function SalasTunnel({ content, progress }: { content: SalasContent; progress: M
   });
 
   return (
-    <div ref={rootRef} className="relative h-full w-full overflow-hidden">
+    <motion.div ref={rootRef} style={{ opacity: entryOpacity, pointerEvents: entryPointerEvents }} className="relative h-full w-full overflow-hidden">
       <DepthTunnel items={items} layout={layout} progress={progress} maxBlur={isMobile ? 0 : 3} solo={isMobile} className="absolute inset-0" />
       <motion.div style={{ opacity: titleOpacity }} className="pointer-events-none absolute inset-0 grid place-items-center px-4">
         <SalasTitle content={content} />
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 

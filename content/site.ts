@@ -47,7 +47,7 @@ export const site: SiteContent = {
       { id: "enoque", name: "Enoque: para onde ele foi? Trailer no YouTube", image: "/images/salas/enoque.webp", href: video("_YBJhQ2C6jc"), external: true },
       { id: "fe-e-poder", name: "Fé e Poder: textos, história e autoridade. Sala no Portal", image: "/images/salas/fe-e-poder.webp", href: `${PORTAL}/salas/fe-e-poder` },
     ],
-    blocks: [["espiral"], ["nag-hammadi", "corpus-hermeticum"], ["urantia", "caibalion", "apocrifos"], ["enoque", "fe-e-poder"], ["espiral"]],
+    blocks: [["espiral"], ["nag-hammadi", "corpus-hermeticum"], ["urantia", "caibalion", "apocrifos"], ["enoque", "fe-e-poder"]],
   },
   curadoria: {
     label: "A proposta do portal",

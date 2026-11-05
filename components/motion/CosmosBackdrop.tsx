@@ -19,7 +19,8 @@ export function CosmosBackdrop({ children }: { children: ReactNode }) {
   // Wrapper progress at which the Hero stage unpins (end of the Hero scene).
   const h = isMobile ? HERO_TRACK.mobile : HERO_TRACK.desktop;
   const s = isMobile ? SALAS_TRACK.mobile : SALAS_TRACK.desktop;
-  const heroEnd = (h - 100) / (h + s - 100);
+  // Salas overlaps the Hero's outgoing viewport by 100svh; subtract that from the wrapper's range.
+  const heroEnd = (h - 100) / (h + s - 200);
 
   const y = useTransform(scrollYProgress, [0, heroEnd, 1], ["-8svh", "0svh", "0svh"]);
   // Kept small: the source clip is 960×960, so every extra % of zoom is visible softness on desktop.

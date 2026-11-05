@@ -7,7 +7,8 @@ import { Pill } from "@/components/ui/Pill";
 import { archZoom } from "@/lib/motion/math";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
-export const HERO_TRACK = { desktop: 400, mobile: 240 };
+// Keep the 100svh stage, with half the previous pinned scroll distance.
+export const HERO_TRACK = { desktop: 250, mobile: 170 };
 
 // Desktop: Figma's side shades (19321:3423 / 3424, two mirrored 705px gradients meeting at the center).
 const SIDE_SHADE =
