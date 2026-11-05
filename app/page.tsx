@@ -13,9 +13,6 @@ import { Faq } from "@/components/scenes/Faq";
 import { FooterCurtain } from "@/components/scenes/FooterCurtain";
 import { getLatestVideos } from "@/lib/youtube";
 
-// The "Vídeos" carousel shows the channel's latest uploads; the page is regenerated at most once an hour.
-export const revalidate = 3600;
-
 export default async function Home() {
   const videos = await getLatestVideos(site.artigos.videos);
   return (

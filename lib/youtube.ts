@@ -2,8 +2,6 @@ import type { AcervoVideo } from "@/content/types";
 
 /** Canal "A Sala dos Buscadores" (@ASALADOSBUSCADORES). */
 export const CHANNEL_ID = "UCekiO8SyhZ3VTdyH3-CMkrg";
-/** Seconds between refreshes of the channel's video list. */
-export const REVALIDATE = 3600;
 
 const TIMEOUT = 5000;
 const SOURCE = "A Sala dos Buscadores";
@@ -51,7 +49,7 @@ export function parseFeed(xml: string): Candidate[] {
 
 async function get(url: string, init?: RequestInit): Promise<Response | null> {
   try {
-    const res = await fetch(url, { ...init, signal: AbortSignal.timeout(TIMEOUT), next: { revalidate: REVALIDATE } });
+    const res = await fetch(url, { ...init, signal: AbortSignal.timeout(TIMEOUT) });
     return res.ok ? res : null;
   } catch {
     return null;

@@ -1,6 +1,6 @@
 import type { Link, SiteContent } from "./types";
 
-const PORTAL = "https://sala-dos-buscadores.vercel.app";
+const PORTAL = "https://asaladosbuscadores.com.br";
 const CANAL = "https://youtube.com/@asaladosbuscadores";
 const video = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 // Página inicial do Portal. Quem não está logado passa pelo login e volta para cá (?voltar=/).
