@@ -1,6 +1,6 @@
 import Script from "next/script";
 
-const ID_MEDICAO = "G-Q8Q258867V";
+const ID_MEDICAO = "G-JZNRTQR4JH";
 
 export function GoogleAnalytics() {
   return (
