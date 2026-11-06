@@ -33,7 +33,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${fraunces.variable} ${inter.variable}`}>
-      <body><GoogleAnalytics /><SmoothScroll>{children}</SmoothScroll></body>
+      <head>
+        <GoogleAnalytics />
+      </head>
+      <body><SmoothScroll>{children}</SmoothScroll></body>
     </html>
   );
 }
