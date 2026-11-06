@@ -8,7 +8,6 @@ const portal: Link = { label: "Entrar no Portal", href: PORTAL };
 const youtube: Link = { label: "YouTube", href: CANAL, external: true };
 // E-mail de contato e de candidatura, confirmado pela equipe (5 nov 2026).
 export const EMAIL = "contato@asaladosbuscadores.com.br";
-const candidatura = `mailto:${EMAIL}?subject=Candidatura%20para%20Anfitri%C3%A3o`;
 
 const navLinks: Link[] = [
   { label: "Início", href: "#inicio" },
@@ -224,8 +223,7 @@ export const site: SiteContent = {
       { image: "/images/anfitrioes/exemplo-cosmos.webp", theme: "Cosmologias e filosofia", title: "Cosmos e sentidos da existência", description: "Cosmologias espirituais e filosóficas em diálogo com a experiência humana.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
     ],
     exampleNote: "Exemplo ilustrativo · sem publicação real",
-    // Até haver formulário, a candidatura começa por e-mail.
-    primary: { label: "Quero ser Anfitrião", href: candidatura },
+    primary: { label: "Quero ser Anfitrião", href: `${PORTAL}/cadastro/anfitriao` },
     secondary: { label: "Conhecer os critérios de participação", href: "/anfitrioes#politica" },
     contact: { label: "Sem aplicativo de e-mail? Escreva para", email: EMAIL },
     card: {
