@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { AnfitriaoContent } from "@/content/types";
 import { Pill } from "@/components/ui/Pill";
-import { AcervoSalaCard } from "@/components/ui/AcervoCards";
+import { HostSalaCard } from "@/components/ui/HostSalaCard";
 import { useSavedSalas } from "@/lib/useSavedSalas";
 import { cn } from "@/lib/cn";
 import styles from "./Anfitriao.module.css";
@@ -43,7 +43,7 @@ export function Anfitriao({ content }: { content: AnfitriaoContent }) {
             <p className={cn("type-lead", styles.description)}>{content.text}</p>
             <Pill href={content.primary.href} className={styles.apply}>{content.primary.label}</Pill>
           </div>
-          <AcervoSalaCard sala={sala} variant="gold" seal={sala.seal} saved={saved.has(sala.id)} onSave={save} />
+          <HostSalaCard sala={sala} saved={saved.has(sala.id)} onSave={save} />
         </div>
         <ol className={styles.steps}>
           {content.steps.map(step => (

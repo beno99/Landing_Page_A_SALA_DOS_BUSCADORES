@@ -1,8 +1,8 @@
 import type { AnfitrioesContent, Link } from "./types";
-import { EMAIL, site } from "./site";
+import { CANDIDATURA, EMAIL, site } from "./site";
 
-// Até haver formulário, a candidatura começa por e-mail (o mesmo destino da LP).
-const candidatura: Link = { label: site.anfitriao.primary.label, href: site.anfitriao.primary.href };
+// Cadastro de Anfitrião no Portal.
+const candidatura: Link = { label: site.anfitriao.primary.label, href: CANDIDATURA };
 
 const navLinks: Link[] = [
   { label: "Início", href: "/" },
@@ -54,7 +54,7 @@ export const anfitrioes: AnfitrioesContent = {
     profile: {
       avatar: "/images/anfitrioes/avatar.webp",
       label: "Autoria identificada",
-      name: "Nome do anfitrião",
+      name: "Nome do Anfitrião",
       note: "Campo ilustrativo: o Anfitrião escolhe o nome público que aparece nos conteúdos.",
       seal: site.anfitriao.seal,
     },

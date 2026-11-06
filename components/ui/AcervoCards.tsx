@@ -1,43 +1,40 @@
 import Image from "next/image";
 import type { AcervoArticle, AcervoSala, AcervoVideo } from "@/content/types";
 import { cn } from "@/lib/cn";
-import goldStyles from "./GoldSalaCard.module.css";
 import styles from "@/components/scenes/Artigos.module.css";
 
 function Seal({ children }: { children: string }) {
   return <span className={styles.seal}><Image src="/assets/acervo/curado.svg" alt="" width={18} height={18} />{children}</span>;
 }
 
-export function AcervoSalaCard({ sala, saved, onSave, variant = "default", seal }: {
-  sala: AcervoSala; saved: boolean; onSave: () => void; variant?: "default" | "gold"; seal?: string;
+export function AcervoSalaCard({ sala, saved, onSave, seal }: {
+  sala: AcervoSala; saved: boolean; onSave: () => void; seal?: string;
 }) {
-  const cardStyles = variant === "gold" ? goldStyles : styles;
-  const gold = variant === "gold";
   return (
-    <article className={cardStyles.roomCard}>
-      <div className={cardStyles.roomVisual}>
+    <article className={styles.roomCard}>
+      <div className={styles.roomVisual}>
         <Image src={sala.image} alt="" fill
-          sizes={gold ? "(min-width: 1024px) 387px, (min-width: 480px) 385px, 90vw" : "(min-width: 1100px) 376px, (min-width: 700px) 45vw, 90vw"}
-          className={cardStyles.roomImage} />
-        <div className={cardStyles.roomTop}>
-          <span className={cardStyles.count}>{sala.count} {sala.count === 1 ? "conteúdo" : "conteúdos"}</span>
+          sizes="(min-width: 1100px) 376px, (min-width: 700px) 45vw, 90vw"
+          className={styles.roomImage} />
+        <div className={styles.roomTop}>
+          <span className={styles.count}>{sala.count} {sala.count === 1 ? "conteúdo" : "conteúdos"}</span>
           <button type="button" onClick={onSave} aria-pressed={saved}
             aria-label={`${saved ? "Remover" : "Salvar"} ${sala.title} ${saved ? "da" : "na"} estante deste navegador`}
             title={saved ? "Salva neste navegador — clique para remover" : "Salvar neste navegador"}
-            className={cn("btn", cardStyles.save)}>
-            <Image src={gold ? "/assets/anfitrioes/bookmark.svg" : "/assets/acervo/bookmark.svg"} alt="" width={gold ? 20 : 24} height={gold ? 20 : 24} />
+            className={cn("btn", styles.save)}>
+            <Image src="/assets/acervo/bookmark.svg" alt="" width={24} height={24} />
           </button>
         </div>
-        <div className={cardStyles.roomPanel}>
-          {seal && <span className={cardStyles.origin}>{seal}</span>}
+        <div className={styles.roomPanel}>
+          {seal && <span className={styles.origin}>{seal}</span>}
           <h3>{sala.title}</h3>
-          <p className={cardStyles.roomDescription}>{sala.description}</p>
-          <div className={cardStyles.roomMeta}>
-            <span className={cardStyles.level}><Image src={gold ? "/assets/anfitrioes/nivel.svg" : "/assets/acervo/nivel-iniciante.svg"} alt="" width={gold ? 16 : 19} height={gold ? 14 : 17} />{sala.level}</span>
+          <p className={styles.roomDescription}>{sala.description}</p>
+          <div className={styles.roomMeta}>
+            <span className={styles.level}><Image src="/assets/acervo/nivel-iniciante.svg" alt="" width={19} height={17} />{sala.level}</span>
             <p>Atualizada em <time dateTime={sala.updated}>{sala.updatedLabel}</time></p>
           </div>
-          <a href={sala.href} className={cn("btn", cardStyles.enter)}>
-            Entrar na Sala<Image src={gold ? "/assets/anfitrioes/arrow.svg" : "/assets/acervo/arrow.svg"} alt="" width={gold ? 20 : 24} height={gold ? 20 : 24} />
+          <a href={sala.href} className={cn("btn", styles.enter)}>
+            Entrar na Sala<Image src="/assets/acervo/arrow.svg" alt="" width={24} height={24} />
           </a>
         </div>
       </div>

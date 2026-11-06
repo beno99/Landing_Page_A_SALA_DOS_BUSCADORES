@@ -6,8 +6,10 @@ const video = (id: string) => `https://www.youtube.com/watch?v=${id}`;
 // Página inicial do Portal. Quem não está logado passa pelo login e volta para cá (?voltar=/).
 const portal: Link = { label: "Entrar no Portal", href: PORTAL };
 const youtube: Link = { label: "YouTube", href: CANAL, external: true };
-// E-mail de contato e de candidatura, confirmado pela equipe (5 nov 2026).
+// E-mail de contato, confirmado pela equipe (5 nov 2026).
 export const EMAIL = "contato@asaladosbuscadores.com.br";
+// Na LP, "Quero ser Anfitrião" leva à página /anfitrioes; lá, ao cadastro de Anfitrião no Portal.
+export const CANDIDATURA = `${PORTAL}/cadastro/anfitriao`;
 
 const navLinks: Link[] = [
   { label: "Início", href: "#inicio" },
@@ -206,7 +208,7 @@ export const site: SiteContent = {
       image: "/images/anfitrioes/corpus-hermeticum.png", count: 1,
       level: "Iniciante", updated: "2026-11-01", updatedLabel: "1 nov 2026",
       href: "https://asaladosbuscadores.com.br/salas/corpus-hermeticum",
-      seal: "Sala da curadoria",
+      seal: "Sala do Anfitrião",
     },
     steps: [
       { title: "Apresente sua proposta", text: "Conte o tema, sua abordagem e o que deseja compartilhar.", icon: "/assets/anfitrioes/proposta.svg" },
@@ -218,19 +220,19 @@ export const site: SiteContent = {
     seal: "Sala de Anfitrião",
     // Demonstração: nomes e dados não representam pessoas ou Salas cadastradas. Imagens do acervo visual do projeto.
     examples: [
-      { image: "/images/anfitrioes/exemplo-tome.webp", theme: "Textos e tradições", title: "Leituras do Evangelho de Tomé", description: "Textos antigos, contexto histórico e perguntas sobre o conhecimento.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
-      { image: "/images/anfitrioes/exemplo-fe-memoria.webp", theme: "História e cultura", title: "Fé, memória e sociedade", description: "Religião, símbolos e autoridade em diferentes contextos culturais.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
-      { image: "/images/anfitrioes/exemplo-cosmos.webp", theme: "Cosmologias e filosofia", title: "Cosmos e sentidos da existência", description: "Cosmologias espirituais e filosóficas em diálogo com a experiência humana.", author: "Por Nome do anfitrião", authorNote: "Autoria e perfil identificados" },
+      { image: "/images/anfitrioes/exemplo-tome.webp", theme: "Textos e tradições", title: "Leituras do Evangelho de Tomé", description: "Textos antigos, contexto histórico e perguntas sobre o conhecimento.", author: "Por Nome do Anfitrião", authorNote: "Autoria e perfil identificados" },
+      { image: "/images/anfitrioes/exemplo-fe-memoria.webp", theme: "História e cultura", title: "Fé, memória e sociedade", description: "Religião, símbolos e autoridade em diferentes contextos culturais.", author: "Por Nome do Anfitrião", authorNote: "Autoria e perfil identificados" },
+      { image: "/images/anfitrioes/exemplo-cosmos.webp", theme: "Cosmologias e filosofia", title: "Cosmos e sentidos da existência", description: "Cosmologias espirituais e filosóficas em diálogo com a experiência humana.", author: "Por Nome do Anfitrião", authorNote: "Autoria e perfil identificados" },
     ],
     exampleNote: "Exemplo ilustrativo · sem publicação real",
-    primary: { label: "Quero ser Anfitrião", href: `${PORTAL}/cadastro/anfitriao` },
+    primary: { label: "Quero ser Anfitrião", href: "/anfitrioes" },
     secondary: { label: "Conhecer os critérios de participação", href: "/anfitrioes#politica" },
     contact: { label: "Sem aplicativo de e-mail? Escreva para", email: EMAIL },
     card: {
       image: "/images/anfitrioes/exemplo-tome.webp",
       count: "2 conteúdos publicados",
       title: "Leituras do Evangelho de Tomé",
-      description: "Sala de Anfitrião · Nome do anfitrião (demonstração)",
+      description: "Sala de Anfitrião · Nome do Anfitrião (demonstração)",
       level: "Iniciante",
       updated: "Atualizada em 7 out 2026",
       note: "Exemplo de demonstração",

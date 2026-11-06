@@ -1,0 +1,87 @@
+/* Gold frame: the host seal's metallic gradient. */
+.roomCard {
+  width: 100%;
+  max-width: 401px;
+  padding: 8px;
+  border-radius: 24px;
+  background: linear-gradient(123.756deg, #b47a00 14.639%, #ffca28 46.464%, #ffe080 57.072%, #b47a00 85.361%);
+  box-shadow: 0 12px 28px -12px rgb(12 4 4 / 45%);
+  justify-self: center;
+}
+
+.roomVisual {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 584px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--color-graphite);
+}
+
+.roomImage { z-index: -1; object-fit: cover; }
+
+/* Same side insets as .roomPanel, so the count lines up with its left edge and the save button with its right edge. */
+.roomTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 16px 16px 0; }
+.count {
+  display: inline-flex; align-items: center; min-height: 32px; padding: 6px 12px;
+  border: 1px solid rgb(255 255 255 / 18%); border-radius: 12px;
+  background: rgb(17 19 19 / 82%); color: #fff; font-size: 12px; line-height: 18px;
+}
+.save {
+  display: grid; width: 48px; height: 48px; flex-shrink: 0; place-items: center;
+  border: 1px solid rgb(255 255 255 / 18%); border-radius: 12px; background: rgb(17 19 19 / 82%);
+  box-shadow: 0 6px 14px -6px rgb(0 0 0 / 50%);
+}
+.save[aria-pressed="true"] { border-color: #ffe080; background: #725624; }
+.save:focus-visible, .enter:focus-visible { outline: 2px solid #ffe080; outline-offset: 3px; }
+
+.roomPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 0 8px 8px;
+  padding: 24px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 16px;
+  background:
+    radial-gradient(60% 40% at 55% 0%, rgb(120 82 44 / 30%), transparent 70%),
+    rgb(17 19 19 / 86%);
+  backdrop-filter: blur(10px);
+}
+
+.roomPanel h3 { font-family: var(--font-display); font-variation-settings: "SOFT" 0, "WONK" 1; color: #fff; font-size: 32px; font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; text-wrap: balance; }
+.roomDescription { color: rgb(255 255 255 / 92%); font-size: 14px; line-height: 22px; }
+
+/* Origin badge with the gold outline of the host seal. */
+.origin {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 3px 8px 3px 3px;
+  border: 1px solid #e6cf7a; border-radius: 8px;
+  background: rgb(17 19 19 / 72%); color: #fff; font-size: 12px; font-weight: 600; line-height: 18px;
+}
+.originIcon { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 6px; background: rgb(230 207 122 / 14%); color: #e6cf7a; }
+
+.roomMeta { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.level {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 6px 14px 6px 10px;
+  border-radius: 999px; background: var(--color-level); color: var(--color-level-ink);
+  font-size: 12.5px; font-weight: 600; line-height: 18px;
+}
+.roomMeta p { color: rgb(255 255 255 / 88%); font-size: 12px; line-height: 18px; }
+
+.enter { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; max-width: 100%; padding: 12px 24px; border-radius: 12px; background: #d4d5d5; color: #111313; font-size: 15px; font-weight: 600; line-height: 21px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .save:hover { background: #725624; }
+  .enter:hover { background: var(--color-cream); }
+}
+
+@media (max-width: 479px) {
+  .roomPanel { padding: 20px; }
+  .roomTop { padding: 12px 12px 0; }
+  .roomPanel h3 { font-size: 28px; }
+}
